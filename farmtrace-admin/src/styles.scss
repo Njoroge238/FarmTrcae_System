@@ -1,0 +1,97 @@
+// =============================================
+// FarmTrace Admin Portal — Global Styles
+// Corporate blue/grey theme using Angular Material
+// =============================================
+
+@use '@angular/material' as mat;
+
+// --- Include Material core styles (required once) ---
+@include mat.core();
+
+// --- Define our custom corporate colour palette ---
+$farmtrace-primary: mat.define-palette(mat.$blue-palette, 800, 600, 900);
+$farmtrace-accent:  mat.define-palette(mat.$blue-grey-palette, 600);
+$farmtrace-warn:    mat.define-palette(mat.$red-palette);
+
+// --- Build the light theme ---
+$farmtrace-theme: mat.define-light-theme((
+  color: (
+    primary: $farmtrace-primary,
+    accent:  $farmtrace-accent,
+    warn:    $farmtrace-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+// --- Apply the theme to all Material components ---
+@include mat.all-component-themes($farmtrace-theme);
+
+// =============================================
+// Global resets
+// =============================================
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #f4f6f9;
+  color: #1a2236;
+  font-size: 14px;
+}
+
+// =============================================
+// Admin shell layout helpers
+// =============================================
+
+// The outermost wrapper — full viewport height
+.admin-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// Sits below the top navbar — holds sidebar + content
+.admin-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+// The main scrollable content area on the right
+.admin-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  background: #f4f6f9;
+}
+
+// =============================================
+// Reusable utility classes
+// =============================================
+
+// Page title at the top of each section
+.page-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1a2236;
+  margin-bottom: 24px;
+}
+
+// A clean white card container
+.ft-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+}
+
+// Spacer between elements
+.ft-spacer {
+  flex: 1 1 auto;
+}
