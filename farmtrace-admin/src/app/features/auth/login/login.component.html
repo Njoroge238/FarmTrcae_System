@@ -1,146 +1,203 @@
 <!-- =============================================
      Login Page — FarmTrace Admin Portal
-     Clean corporate login form using
-     Angular Material components
+     Full screen landing page with centered
+     glass-style login card and geometric
+     tech + agriculture background
      ============================================= -->
 
-<div class="login-wrapper">
+<div class="login-page">
 
-  <!-- Left panel — branding side -->
-  <div class="login-brand">
-    <div class="brand-content">
-      <div class="brand-logo">
+  <!-- ── Geometric SVG background ── -->
+  <svg class="geo-bg" viewBox="0 0 1440 900"
+       xmlns="http://www.w3.org/2000/svg"
+       preserveAspectRatio="xMidYMid slice">
+
+    <!-- Blue concentric circles — top left -->
+    <circle cx="200" cy="160" r="320" fill="none"
+            stroke="rgba(24,95,165,0.18)" stroke-width="0.8"/>
+    <circle cx="200" cy="160" r="230" fill="none"
+            stroke="rgba(24,95,165,0.12)" stroke-width="0.8"/>
+    <circle cx="200" cy="160" r="140" fill="none"
+            stroke="rgba(24,95,165,0.08)" stroke-width="0.8"/>
+
+    <!-- Green concentric circles — bottom right -->
+    <circle cx="1240" cy="740" r="280" fill="none"
+            stroke="rgba(99,195,74,0.12)" stroke-width="0.8"/>
+    <circle cx="1240" cy="740" r="190" fill="none"
+            stroke="rgba(99,195,74,0.08)" stroke-width="0.8"/>
+
+    <!-- Green triangles — top right -->
+    <polygon points="1260,80 1340,220 1180,220" fill="none"
+             stroke="rgba(99,195,74,0.15)" stroke-width="0.8"/>
+    <polygon points="1300,40 1400,230 1200,230" fill="none"
+             stroke="rgba(99,195,74,0.07)" stroke-width="0.8"/>
+
+    <!-- Blue triangle — bottom left -->
+    <polygon points="120,660 200,790 40,790" fill="none"
+             stroke="rgba(24,95,165,0.12)" stroke-width="0.8"/>
+
+    <!-- Subtle grid lines -->
+    <line x1="0" y1="300" x2="1440" y2="300"
+          stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+    <line x1="0" y1="600" x2="1440" y2="600"
+          stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+    <line x1="400" y1="0" x2="400" y2="900"
+          stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+    <line x1="1040" y1="0" x2="1040" y2="900"
+          stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+
+    <!-- Glowing anchor dots -->
+    <circle cx="200" cy="160" r="4" fill="rgba(99,195,74,0.6)"/>
+    <circle cx="1240" cy="740" r="4" fill="rgba(24,95,165,0.7)"/>
+    <circle cx="1260" cy="80"  r="3" fill="rgba(99,195,74,0.4)"/>
+    <circle cx="120"  cy="660" r="3" fill="rgba(24,95,165,0.4)"/>
+
+    <!-- Dashed connecting lines -->
+    <line x1="200" y1="160" x2="1260" y2="80"
+          stroke="rgba(99,195,74,0.07)"
+          stroke-width="0.8" stroke-dasharray="5,8"/>
+    <line x1="120" y1="660" x2="1240" y2="740"
+          stroke="rgba(24,95,165,0.07)"
+          stroke-width="0.8" stroke-dasharray="5,8"/>
+
+    <!-- Rotated rectangles — floating shapes -->
+    <rect x="50" y="420" width="80" height="80" rx="6" fill="none"
+          stroke="rgba(255,255,255,0.04)" stroke-width="0.8"
+          transform="rotate(15 90 460)"/>
+    <rect x="1310" y="320" width="70" height="70" rx="6" fill="none"
+          stroke="rgba(255,255,255,0.04)" stroke-width="0.8"
+          transform="rotate(-10 1345 355)"/>
+  </svg>
+
+  <!-- ── Top navigation bar ── -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">
         <mat-icon>eco</mat-icon>
       </div>
-      <h1 class="brand-name">FarmTrace</h1>
-      <p class="brand-tagline">
-        Admin Portal — Full visibility and control
-        over the entire cooperative network.
-      </p>
+      <div class="brand-text">
+        <span class="brand-name">FarmTrace</span>
+        <span class="brand-sub">Cooperative Management</span>
+      </div>
+    </div>
+    <div class="version-tag">Admin Portal</div>
+  </div>
 
-      <!-- A few feature highlights -->
-      <div class="brand-features">
-        <div class="brand-feature">
-          <mat-icon>groups</mat-icon>
-          <span>Manage clerks across all regions</span>
+  <!-- ── Centered login card ── -->
+  <div class="card-wrapper">
+    <div class="login-card">
+
+      <!-- Card header -->
+      <div class="card-header">
+        <div class="card-icon">
+          <mat-icon>shield</mat-icon>
         </div>
-        <div class="brand-feature">
-          <mat-icon>store</mat-icon>
-          <span>Oversee all cooperatives</span>
-        </div>
-        <div class="brand-feature">
-          <mat-icon>bar_chart</mat-icon>
-          <span>System-wide reports & analytics</span>
+        <div class="card-header-text">
+          <h1 class="card-title">Welcome back</h1>
+          <p class="card-subtitle">Sign in to your admin account</p>
         </div>
       </div>
+
+      <div class="card-divider"></div>
+
+      <!-- Login form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+        <!-- Email field -->
+        <mat-form-field appearance="outline" class="full-width dark-field">
+          <mat-label>Email address</mat-label>
+          <input
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="admin@farmtrace.co"
+            autocomplete="email"
+          />
+          <mat-icon matSuffix>mail_outline</mat-icon>
+
+          @if (loginForm.get('email')?.hasError('required') &&
+               loginForm.get('email')?.touched) {
+            <mat-error>Email is required</mat-error>
+          }
+          @if (loginForm.get('email')?.hasError('email') &&
+               loginForm.get('email')?.touched) {
+            <mat-error>Please enter a valid email address</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Password field -->
+        <mat-form-field appearance="outline" class="full-width dark-field">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+          >
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+
+          @if (loginForm.get('password')?.hasError('required') &&
+               loginForm.get('password')?.touched) {
+            <mat-error>Password is required</mat-error>
+          }
+          @if (loginForm.get('password')?.hasError('minlength') &&
+               loginForm.get('password')?.touched) {
+            <mat-error>Password must be at least 6 characters</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Server error message -->
+        @if (errorMessage) {
+          <div class="error-banner">
+            <mat-icon>error_outline</mat-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+        }
+
+        <!-- Sign in button -->
+        <button
+          mat-raised-button
+          type="submit"
+          class="login-btn"
+          [disabled]="loginForm.invalid || isLoading"
+        >
+          @if (isLoading) {
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>Signing in...</span>
+          } @else {
+            <mat-icon>login</mat-icon>
+            <span>Sign in to portal</span>
+          }
+        </button>
+
+      </form>
+
+      <!-- Card footer -->
+      <p class="card-footer">
+        FarmTrace Admin Portal &copy; {{ currentYear }} — Secured access only
+      </p>
+
     </div>
   </div>
 
-  <!-- Right panel — login form -->
-  <div class="login-form-side">
-    <mat-card class="login-card">
-
-      <!-- Card header -->
-      <mat-card-header>
-        <mat-card-title>Welcome back</mat-card-title>
-        <mat-card-subtitle>Sign in to your admin account</mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
-        <!-- The login form -->
-        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-
-          <!-- Email field -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Email address</mat-label>
-            <input
-              matInput
-              type="email"
-              formControlName="email"
-              placeholder="admin@farmtrace.co"
-              autocomplete="email"
-            />
-            <mat-icon matSuffix>mail_outline</mat-icon>
-
-            <!-- Email validation messages -->
-            @if (loginForm.get('email')?.hasError('required') &&
-                 loginForm.get('email')?.touched) {
-              <mat-error>Email is required</mat-error>
-            }
-            @if (loginForm.get('email')?.hasError('email') &&
-                 loginForm.get('email')?.touched) {
-              <mat-error>Please enter a valid email address</mat-error>
-            }
-          </mat-form-field>
-
-          <!-- Password field -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Password</mat-label>
-            <input
-              matInput
-              [type]="hidePassword ? 'password' : 'text'"
-              formControlName="password"
-              autocomplete="current-password"
-            />
-
-            <!-- Toggle password visibility -->
-            <button
-              mat-icon-button
-              matSuffix
-              type="button"
-              (click)="hidePassword = !hidePassword"
-              [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
-            >
-              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
-            </button>
-
-            <!-- Password validation messages -->
-            @if (loginForm.get('password')?.hasError('required') &&
-                 loginForm.get('password')?.touched) {
-              <mat-error>Password is required</mat-error>
-            }
-            @if (loginForm.get('password')?.hasError('minlength') &&
-                 loginForm.get('password')?.touched) {
-              <mat-error>Password must be at least 6 characters</mat-error>
-            }
-          </mat-form-field>
-
-          <!-- Error message from the server -->
-          @if (errorMessage) {
-            <div class="error-banner">
-              <mat-icon>error_outline</mat-icon>
-              <span>{{ errorMessage }}</span>
-            </div>
-          }
-
-          <!-- Login button -->
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            class="login-btn"
-            [disabled]="loginForm.invalid || isLoading"
-          >
-            <!-- Show spinner while loading -->
-            @if (isLoading) {
-              <mat-spinner diameter="20"></mat-spinner>
-              <span>Signing in...</span>
-            } @else {
-              <span>Sign in</span>
-            }
-          </button>
-
-        </form>
-      </mat-card-content>
-
-      <!-- Footer note -->
-      <mat-card-footer>
-        <p class="login-footer">
-          FarmTrace Admin Portal &copy; {{ currentYear }}
-        </p>
-      </mat-card-footer>
-
-    </mat-card>
+  <!-- ── Bottom feature strip ── -->
+  <div class="feature-strip">
+    <div class="feature-item">
+      <mat-icon>store</mat-icon>
+      <span>Multi-cooperative</span>
+    </div>
+    <div class="feature-item">
+      <mat-icon>bar_chart</mat-icon>
+      <span>System-wide analytics</span>
+    </div>
   </div>
 
 </div>

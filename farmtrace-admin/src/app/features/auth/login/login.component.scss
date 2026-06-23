@@ -1,154 +1,226 @@
 // =============================================
 // Login Page Styles — FarmTrace Admin Portal
-// Two-panel layout: brand left, form right
+// Full screen dark landing page with centered
+// glass-style card and geometric background
 // =============================================
 
-// The outer wrapper — full screen, two columns
-.login-wrapper {
-  display: flex;
+// ── Full screen wrapper ──
+.login-page {
+  position: relative;
+  width: 100%;
   height: 100vh;
+  background: #0a1628;
   overflow: hidden;
-}
-
-// -----------------------------------------------
-// Left panel — brand side (dark blue)
-// -----------------------------------------------
-.login-brand {
-  flex: 1;
-  background: linear-gradient(145deg, #0d1b2a 0%, #1a3a5c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px;
-
-  // Hide on small screens
-  @media (max-width: 768px) {
-    display: none;
-  }
 }
 
-.brand-content {
-  max-width: 380px;
-  color: #ffffff;
+// ── SVG geometric background ──
+.geo-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-// The leaf icon at the top
-.brand-logo {
-  width: 64px;
-  height: 64px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
+// ── Top navigation bar ──
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+// Brand logo + name
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(99, 195, 74, 0.12);
+  border: 0.5px solid rgba(99, 195, 74, 0.3);
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
 
   mat-icon {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
-    color: #64b5f6;
-  }
-}
-
-.brand-name {
-  font-size: 32px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
-}
-
-.brand-tagline {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.6;
-  margin-bottom: 40px;
-}
-
-// The three feature highlights
-.brand-features {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.brand-feature {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 14px;
-
-  mat-icon {
-    color: #64b5f6;
     font-size: 20px;
     width: 20px;
     height: 20px;
-    flex-shrink: 0;
+    color: #63c34a;
   }
 }
 
-// -----------------------------------------------
-// Right panel — the form side (light grey)
-// -----------------------------------------------
-.login-form-side {
-  width: 480px;
-  background: #f4f6f9;
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 1px;
+}
+
+// Version badge
+.version-tag {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+// ── Centered card wrapper ──
+.card-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 420px;
+  padding: 0 16px;
+}
+
+// ── Glass login card ──
+.login-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 36px 40px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+// Card top section — icon + title
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(99, 195, 74, 0.1);
+  border: 0.5px solid rgba(99, 195, 74, 0.25);
+  border-radius: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  flex-shrink: 0;
 
-  // Full width on small screens
-  @media (max-width: 768px) {
-    width: 100%;
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    color: #63c34a;
   }
 }
 
-// The white card that holds the form
-.login-card {
-  width: 100%;
-  max-width: 400px;
-  padding: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
-  border-radius: 12px !important;
-
-  mat-card-title {
-    font-size: 22px !important;
-    font-weight: 600 !important;
-    color: #1a2236;
-    margin-bottom: 4px;
-  }
-
-  mat-card-subtitle {
-    font-size: 14px !important;
-    color: #6b7280;
-  }
-
-  mat-card-header {
-    margin-bottom: 24px;
-    padding-top: 8px;
-  }
+.card-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
 }
 
-// Makes form fields stretch full width
+.card-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 3px;
+}
+
+// Thin divider line
+.card-divider {
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-bottom: 24px;
+}
+
+// ── Dark styled Material form fields ──
 .full-width {
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
-// Red error banner shown when login fails
+// Override Angular Material colors for dark background
+.dark-field {
+
+  // Label color
+  ::ng-deep .mat-mdc-floating-label {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  // Input text color
+  ::ng-deep .mat-mdc-input-element {
+    color: rgba(255, 255, 255, 0.85) !important;
+    caret-color: #63c34a !important;
+  }
+
+  // Outline border color
+  ::ng-deep .mdc-notched-outline__leading,
+  ::ng-deep .mdc-notched-outline__notch,
+  ::ng-deep .mdc-notched-outline__trailing {
+    border-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  // Focused border color
+  &:focus-within {
+    ::ng-deep .mdc-notched-outline__leading,
+    ::ng-deep .mdc-notched-outline__notch,
+    ::ng-deep .mdc-notched-outline__trailing {
+      border-color: #63c34a !important;
+    }
+
+    ::ng-deep .mat-mdc-floating-label {
+      color: #63c34a !important;
+    }
+  }
+
+  // Suffix icon color
+  ::ng-deep .mat-mdc-form-field-icon-suffix mat-icon {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  // Error text color
+  ::ng-deep .mat-mdc-form-field-error {
+    color: #f87171;
+  }
+}
+
+// ── Error banner ──
 .error-banner {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: rgba(220, 38, 38, 0.12);
+  border: 0.5px solid rgba(220, 38, 38, 0.3);
   border-radius: 8px;
   padding: 10px 14px;
   margin-bottom: 16px;
-  color: #dc2626;
+  color: #f87171;
   font-size: 13px;
 
   mat-icon {
@@ -159,24 +231,69 @@
   }
 }
 
-// The sign in button — full width
+// ── Sign in button ──
 .login-btn {
   width: 100%;
-  height: 44px;
-  font-size: 15px;
-  font-weight: 500;
-  margin-top: 8px;
+  height: 46px;
+  background: #185fa5 !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-radius: 9px !important;
+  margin-top: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border-radius: 8px !important;
+  transition: background 0.2s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover:not(:disabled) {
+    background: #1a6dbf !important;
+  }
+
+  &:disabled {
+    background: rgba(24, 95, 165, 0.4) !important;
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
 }
 
-// Footer text at the bottom of the card
-.login-footer {
+// ── Card footer note ──
+.card-footer {
   text-align: center;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+}
+
+// ── Bottom feature strip ──
+.feature-strip {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 28px;
+  z-index: 10;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.35);
   font-size: 12px;
-  color: #9ca3af;
-  padding: 12px 0 4px;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #63c34a;
+  }
 }
