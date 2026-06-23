@@ -1,0 +1,182 @@
+// =============================================
+// Login Page Styles — FarmTrace Admin Portal
+// Two-panel layout: brand left, form right
+// =============================================
+
+// The outer wrapper — full screen, two columns
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+// -----------------------------------------------
+// Left panel — brand side (dark blue)
+// -----------------------------------------------
+.login-brand {
+  flex: 1;
+  background: linear-gradient(145deg, #0d1b2a 0%, #1a3a5c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+
+  // Hide on small screens
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.brand-content {
+  max-width: 380px;
+  color: #ffffff;
+}
+
+// The leaf icon at the top
+.brand-logo {
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: #64b5f6;
+  }
+}
+
+.brand-name {
+  font-size: 32px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.brand-tagline {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+// The three feature highlights
+.brand-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brand-feature {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+
+  mat-icon {
+    color: #64b5f6;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+}
+
+// -----------------------------------------------
+// Right panel — the form side (light grey)
+// -----------------------------------------------
+.login-form-side {
+  width: 480px;
+  background: #f4f6f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+
+  // Full width on small screens
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+// The white card that holds the form
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 12px !important;
+
+  mat-card-title {
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    color: #1a2236;
+    margin-bottom: 4px;
+  }
+
+  mat-card-subtitle {
+    font-size: 14px !important;
+    color: #6b7280;
+  }
+
+  mat-card-header {
+    margin-bottom: 24px;
+    padding-top: 8px;
+  }
+}
+
+// Makes form fields stretch full width
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+// Red error banner shown when login fails
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  color: #dc2626;
+  font-size: 13px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+}
+
+// The sign in button — full width
+.login-btn {
+  width: 100%;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 8px !important;
+}
+
+// Footer text at the bottom of the card
+.login-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+  padding: 12px 0 4px;
+}

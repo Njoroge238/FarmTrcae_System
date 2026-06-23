@@ -1,0 +1,146 @@
+<!-- =============================================
+     Login Page — FarmTrace Admin Portal
+     Clean corporate login form using
+     Angular Material components
+     ============================================= -->
+
+<div class="login-wrapper">
+
+  <!-- Left panel — branding side -->
+  <div class="login-brand">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <mat-icon>eco</mat-icon>
+      </div>
+      <h1 class="brand-name">FarmTrace</h1>
+      <p class="brand-tagline">
+        Admin Portal — Full visibility and control
+        over the entire cooperative network.
+      </p>
+
+      <!-- A few feature highlights -->
+      <div class="brand-features">
+        <div class="brand-feature">
+          <mat-icon>groups</mat-icon>
+          <span>Manage clerks across all regions</span>
+        </div>
+        <div class="brand-feature">
+          <mat-icon>store</mat-icon>
+          <span>Oversee all cooperatives</span>
+        </div>
+        <div class="brand-feature">
+          <mat-icon>bar_chart</mat-icon>
+          <span>System-wide reports & analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right panel — login form -->
+  <div class="login-form-side">
+    <mat-card class="login-card">
+
+      <!-- Card header -->
+      <mat-card-header>
+        <mat-card-title>Welcome back</mat-card-title>
+        <mat-card-subtitle>Sign in to your admin account</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- The login form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+          <!-- Email field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email address</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="admin@farmtrace.co"
+              autocomplete="email"
+            />
+            <mat-icon matSuffix>mail_outline</mat-icon>
+
+            <!-- Email validation messages -->
+            @if (loginForm.get('email')?.hasError('required') &&
+                 loginForm.get('email')?.touched) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (loginForm.get('email')?.hasError('email') &&
+                 loginForm.get('email')?.touched) {
+              <mat-error>Please enter a valid email address</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Password field -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              autocomplete="current-password"
+            />
+
+            <!-- Toggle password visibility -->
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+            >
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+
+            <!-- Password validation messages -->
+            @if (loginForm.get('password')?.hasError('required') &&
+                 loginForm.get('password')?.touched) {
+              <mat-error>Password is required</mat-error>
+            }
+            @if (loginForm.get('password')?.hasError('minlength') &&
+                 loginForm.get('password')?.touched) {
+              <mat-error>Password must be at least 6 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Error message from the server -->
+          @if (errorMessage) {
+            <div class="error-banner">
+              <mat-icon>error_outline</mat-icon>
+              <span>{{ errorMessage }}</span>
+            </div>
+          }
+
+          <!-- Login button -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="login-btn"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <!-- Show spinner while loading -->
+            @if (isLoading) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Signing in...</span>
+            } @else {
+              <span>Sign in</span>
+            }
+          </button>
+
+        </form>
+      </mat-card-content>
+
+      <!-- Footer note -->
+      <mat-card-footer>
+        <p class="login-footer">
+          FarmTrace Admin Portal &copy; {{ currentYear }}
+        </p>
+      </mat-card-footer>
+
+    </mat-card>
+  </div>
+
+</div>

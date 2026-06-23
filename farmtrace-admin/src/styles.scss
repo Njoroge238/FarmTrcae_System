@@ -5,27 +5,27 @@
 
 @use '@angular/material' as mat;
 
-// --- Include Material core styles (required once) ---
+// --- Include Material core styles ---
 @include mat.core();
 
-// --- Define our custom corporate colour palette ---
-$farmtrace-primary: mat.define-palette(mat.$blue-palette, 800, 600, 900);
-$farmtrace-accent:  mat.define-palette(mat.$blue-grey-palette, 600);
-$farmtrace-warn:    mat.define-palette(mat.$red-palette);
-
-// --- Build the light theme ---
-$farmtrace-theme: mat.define-light-theme((
+// --- Define our corporate blue theme ---
+$farmtrace-theme: mat.define-theme((
   color: (
-    primary: $farmtrace-primary,
-    accent:  $farmtrace-accent,
-    warn:    $farmtrace-warn,
+    theme-type: light,
+    primary: mat.$blue-palette,
   ),
-  typography: mat.define-typography-config(),
-  density: 0,
+  typography: (
+    brand-family: 'Roboto, sans-serif',
+  ),
+  density: (
+    scale: 0,
+  )
 ));
 
 // --- Apply the theme to all Material components ---
-@include mat.all-component-themes($farmtrace-theme);
+:root {
+  @include mat.all-component-themes($farmtrace-theme);
+}
 
 // =============================================
 // Global resets
