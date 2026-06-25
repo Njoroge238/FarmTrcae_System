@@ -1,0 +1,402 @@
+// =============================================
+// Dashboard Styles — FarmTrace Admin Portal
+// KPI cards, tables and page header styles
+// =============================================
+
+// ── Page wrapper ──
+.dashboard {
+  width: 100%;
+}
+
+// ── Page header ──
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+.page-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+// Header action buttons
+.header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  // Primary blue button
+  &.primary {
+    background: #185fa5;
+    color: #ffffff;
+    border-color: #185fa5;
+
+    &:hover {
+      background: #1a6dbf;
+    }
+  }
+}
+
+// ── Loading spinner ──
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+// ── KPI cards grid ──
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+// Individual KPI card
+.kpi-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// Top row — icon + trend badge
+.kpi-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+// KPI icon box
+.kpi-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+
+  &.blue {
+    background: #e6f1fb;
+    mat-icon { color: #185fa5; }
+  }
+
+  &.green {
+    background: #eaf3de;
+    mat-icon { color: #3b6d11; }
+  }
+
+  &.amber {
+    background: #faeeda;
+    mat-icon { color: #ba7517; }
+  }
+}
+
+// Trend badge
+.kpi-trend {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 99px;
+
+  &.up {
+    background: #eaf3de;
+    color: #3b6d11;
+  }
+
+  &.warn {
+    background: #faeeda;
+    color: #ba7517;
+  }
+}
+
+// Big number
+.kpi-value {
+  font-size: 30px;
+  font-weight: 700;
+  color: #0a1628;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+// Label below the number
+.kpi-label {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+// Colored bar at the bottom of each card
+.kpi-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+
+  &.blue {
+    background: linear-gradient(90deg, #185fa5, #378add);
+  }
+
+  &.green {
+    background: linear-gradient(90deg, #3b6d11, #63c34a);
+  }
+
+  &.amber {
+    background: linear-gradient(90deg, #ba7517, #ef9f27);
+  }
+}
+
+// ── Two column tables layout ──
+.tables-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+// Individual table card
+.table-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+// Table card header
+.table-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid #f3f4f6;
+}
+
+.table-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1628;
+}
+
+.table-card-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+// View all button
+.table-header-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #185fa5;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover {
+    background: #e6f1fb;
+  }
+}
+
+// ── Material table overrides ──
+.ft-table {
+  width: 100%;
+
+  // Header row
+  .mat-mdc-header-row {
+    background: #f8f9fb;
+    height: 38px;
+  }
+
+  .mat-mdc-header-cell {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 12px;
+  }
+
+  // Data rows
+  .mat-mdc-row {
+    height: 52px;
+
+    &:hover {
+      background: #f8f9fb;
+    }
+
+    &:last-child .mat-mdc-cell {
+      border-bottom: none;
+    }
+  }
+
+  .mat-mdc-cell {
+    font-size: 12px;
+    color: #374151;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 12px;
+  }
+}
+
+// ── Table cell helpers ──
+
+// User cell — avatar + name
+.td-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+// Avatar circle
+.td-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: #e6f1fb;
+  color: #185fa5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+
+  &.green {
+    background: #eaf3de;
+    color: #3b6d11;
+  }
+}
+
+.td-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0a1628;
+}
+
+.td-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.td-email {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.td-coop {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+// Count badge
+.td-count {
+  font-size: 13px;
+  font-weight: 600;
+
+  &.blue { color: #185fa5; }
+  &.green { color: #3b6d11; }
+}
+
+// ── Status pills ──
+.status-pill {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &.status-active {
+    background: #eaf3de;
+    color: #3b6d11;
+  }
+
+  &.status-pending {
+    background: #faeeda;
+    color: #ba7517;
+  }
+
+  &.status-rejected {
+    background: #fce8e8;
+    color: #a32d2d;
+  }
+
+  &.status-inactive {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+}

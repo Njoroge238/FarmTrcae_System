@@ -1,11 +1,10 @@
 // =============================================
 // Right Panel Component — FarmTrace Admin Portal
-// The white stats panel on the right side of
-// every page after login. Shows system overview
-// stats, quick actions and sign out button.
+// Now connected to MockDataService so the
+// system overview stats match the dashboard.
 // =============================================
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -15,21 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { AuthService } from '../../../core/auth/auth.service';
-
-// The shape of each stat shown in the overview
-interface SystemStat {
-  label: string;
-  icon: string;
-  value: number;
-  colorClass: string; // controls the color of the value
-}
-
-// The shape of each quick action button
-interface QuickAction {
-  label: string;
-  icon: string;
-  route: string;
-}
+import { MockDataService, DashboardSummary } from '../.././../core/services/mock-data.service';
 
 @Component({
   selector: 'app-right-panel',
@@ -43,29 +28,39 @@ interface QuickAction {
   templateUrl: './right-panel.component.html',
   styleUrl: './right-panel.component.scss'
 })
-export class RightPanelComponent {
+export class RightPanelComponent implements OnInit {
 
-  // System overview stats shown in the panel
-  // These will be replaced with real API data in the dashboard step
-  systemStats: SystemStat[] = [
-    { label: 'Clerks',            icon: 'badge',       value: 0,  colorClass: 'green' },
-    { label: 'Cooperatives',      icon: 'store',       value: 0,  colorClass: 'green' },
-    { label: 'Approved farmers',  icon: 'agriculture', value: 0,  colorClass: 'green' },
-    { label: 'Pending farmers',   icon: 'schedule',    value: 0,  colorClass: 'amber' },
-    { label: 'Rejected farmers',  icon: 'person_off',  value: 0,  colorClass: 'default' }
-  ];
+  // Holds the system summary data
+  summary: DashboardSummary = {
+    totalClerks: 0,
+    totalCooperatives: 0,
+    approvedFarmers: 0,
+    pendingFarmers: 0,
+    rejectedFarmers: 0,
+    unverifiedFarmers: 0
+  };
 
   // Quick action buttons
-  quickActions: QuickAction[] = [
-    { label: 'Create clerk',      icon: 'person_add',  route: '/clerks' },
-    { label: 'Add cooperative',   icon: 'add_business', route: '/cooperatives' },
-    { label: 'Export report',     icon: 'file_download', route: '/reports' }
+  quickActions = [
+    { label: 'Create clerk',    icon: 'person_add',   route: '/clerks' },
+    { label: 'Add cooperative', icon: 'add_business', route: '/cooperatives' },
+    { label: 'Export report',   icon: 'file_download', route: '/reports' }
   ];
 
   constructor(
     private authService: AuthService,
+    private mockDataService: MockDataService,
     private router: Router
   ) {}
+
+  // -----------------------------------------------
+  // Load system summary when panel loads
+  // -----------------------------------------------
+  ngOnInit(): void {
+    this.mockDataService.getDashboardSummary().subscribe(data => {
+      this.summary = data;
+    });
+  }
 
   // -----------------------------------------------
   // Navigate to a page when quick action is clicked

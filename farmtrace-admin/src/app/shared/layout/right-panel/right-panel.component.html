@@ -1,8 +1,8 @@
 <!-- =============================================
      Right Panel Component — FarmTrace Admin Portal
      Fixed right side panel showing admin profile,
-     system overview stats, quick actions and
-     a sign out button at the bottom.
+     system overview stats connected to real data,
+     quick actions and sign out button.
      ============================================= -->
 
 <aside class="right-panel" aria-label="System overview panel">
@@ -22,21 +22,49 @@
 
   <mat-divider></mat-divider>
 
-  <!-- ── System overview stats ── -->
+  <!-- ── System overview stats — connected to mock data ── -->
   <div class="rp-section">
     <div class="rp-section-title">System overview</div>
 
-    @for (stat of systemStats; track stat.label) {
-      <div class="rp-stat">
-        <div class="rp-stat-left">
-          <mat-icon>{{ stat.icon }}</mat-icon>
-          <span>{{ stat.label }}</span>
-        </div>
-        <span class="rp-stat-val" [ngClass]="stat.colorClass">
-          {{ stat.value }}
-        </span>
+    <div class="rp-stat">
+      <div class="rp-stat-left">
+        <mat-icon>badge</mat-icon>
+        <span>Clerks</span>
       </div>
-    }
+      <span class="rp-stat-val green">{{ summary.totalClerks }}</span>
+    </div>
+
+    <div class="rp-stat">
+      <div class="rp-stat-left">
+        <mat-icon>store</mat-icon>
+        <span>Cooperatives</span>
+      </div>
+      <span class="rp-stat-val green">{{ summary.totalCooperatives }}</span>
+    </div>
+
+    <div class="rp-stat">
+      <div class="rp-stat-left">
+        <mat-icon>agriculture</mat-icon>
+        <span>Approved</span>
+      </div>
+      <span class="rp-stat-val green">{{ summary.approvedFarmers }}</span>
+    </div>
+
+    <div class="rp-stat">
+      <div class="rp-stat-left">
+        <mat-icon>schedule</mat-icon>
+        <span>Pending</span>
+      </div>
+      <span class="rp-stat-val amber">{{ summary.pendingFarmers }}</span>
+    </div>
+
+    <div class="rp-stat">
+      <div class="rp-stat-left">
+        <mat-icon>person_off</mat-icon>
+        <span>Rejected</span>
+      </div>
+      <span class="rp-stat-val">{{ summary.rejectedFarmers }}</span>
+    </div>
 
   </div>
 

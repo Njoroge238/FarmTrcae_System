@@ -1,1 +1,206 @@
-<p>dashboard works!</p>
+<!-- =============================================
+     Dashboard Component — FarmTrace Admin Portal
+     First page after login. Shows KPI cards,
+     recent clerks and recent cooperatives.
+     ============================================= -->
+
+<div class="dashboard">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">
+        Welcome back, Admin. Here's what's happening across
+        the cooperative network today.
+      </p>
+    </div>
+    <div class="page-header-right">
+      <button class="header-btn">
+        <mat-icon>file_download</mat-icon>
+        <span>Export</span>
+      </button>
+      <button class="header-btn primary" (click)="loadDashboardData()">
+        <mat-icon>refresh</mat-icon>
+        <span>Refresh</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading dashboard data...</p>
+    </div>
+  }
+
+  <!-- ── Main content — shown when data is loaded ── -->
+  @if (!isLoading) {
+
+    <!-- KPI stat cards -->
+    <div class="kpi-grid">
+      @for (card of kpiCards; track card.label) {
+        <div class="kpi-card" [ngClass]="card.colorClass">
+          <div class="kpi-top">
+            <div class="kpi-icon" [ngClass]="card.colorClass">
+              <mat-icon>{{ card.icon }}</mat-icon>
+            </div>
+            <span class="kpi-trend" [ngClass]="card.trendClass">
+              {{ card.trend }}
+            </span>
+          </div>
+          <div class="kpi-value">{{ card.value }}</div>
+          <div class="kpi-label">{{ card.label }}</div>
+          <div class="kpi-bar" [ngClass]="card.colorClass"></div>
+        </div>
+      }
+    </div>
+
+    <!-- ── Two column tables row ── -->
+    <div class="tables-row">
+
+      <!-- Recent clerks table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <div class="table-card-title">Recent Clerks</div>
+            <div class="table-card-sub">
+              Latest clerk accounts in the system
+            </div>
+          </div>
+          <!-- View all navigates to full clerks page -->
+          <button class="table-header-btn" (click)="goToClerks()">
+            <mat-icon>arrow_forward</mat-icon>
+            <span>View all</span>
+          </button>
+        </div>
+
+        <table mat-table [dataSource]="recentClerks" class="ft-table">
+
+          <!-- Name column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let clerk">
+              <div class="td-user">
+                <div class="td-avatar">
+                  {{ clerk.fullName.charAt(0) }}
+                </div>
+                <div>
+                  <div class="td-name">{{ clerk.fullName }}</div>
+                  <div class="td-sub">Clerk</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Email column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let clerk">
+              <span class="td-email">{{ clerk.email }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Region column -->
+          <ng-container matColumnDef="region">
+            <th mat-header-cell *matHeaderCellDef>Region</th>
+            <td mat-cell *matCellDef="let clerk">
+              {{ clerk.region }}
+            </td>
+          </ng-container>
+
+          <!-- Cooperative column -->
+          <ng-container matColumnDef="cooperative">
+            <th mat-header-cell *matHeaderCellDef>Cooperative</th>
+            <td mat-cell *matCellDef="let clerk">
+              <span class="td-coop">{{ clerk.cooperativeName }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Status column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let clerk">
+              <span class="status-pill"
+                [ngClass]="getStatusClass(clerk.status)">
+                {{ clerk.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="clerkColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: clerkColumns;"></tr>
+
+        </table>
+      </div>
+
+      <!-- Recent cooperatives table -->
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <div class="table-card-title">Cooperatives</div>
+            <div class="table-card-sub">
+              All registered cooperatives
+            </div>
+          </div>
+          <!-- View all navigates to full cooperatives page -->
+          <button class="table-header-btn" (click)="goToCooperatives()">
+            <mat-icon>arrow_forward</mat-icon>
+            <span>View all</span>
+          </button>
+        </div>
+
+        <table mat-table [dataSource]="recentCooperatives" class="ft-table">
+
+          <!-- Name column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let coop">
+              <div class="td-user">
+                <div class="td-avatar green">
+                  {{ coop.name.charAt(0) }}
+                </div>
+                <div>
+                  <div class="td-name">{{ coop.name }}</div>
+                  <div class="td-sub">Cooperative</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Region column -->
+          <ng-container matColumnDef="region">
+            <th mat-header-cell *matHeaderCellDef>Region</th>
+            <td mat-cell *matCellDef="let coop">
+              {{ coop.region }}
+            </td>
+          </ng-container>
+
+          <!-- Farmers column -->
+          <ng-container matColumnDef="farmers">
+            <th mat-header-cell *matHeaderCellDef>Farmers</th>
+            <td mat-cell *matCellDef="let coop">
+              <span class="td-count blue">{{ coop.farmerCount }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Clerks column -->
+          <ng-container matColumnDef="clerks">
+            <th mat-header-cell *matHeaderCellDef>Clerks</th>
+            <td mat-cell *matCellDef="let coop">
+              <span class="td-count green">{{ coop.clerkCount }}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="cooperativeColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: cooperativeColumns;"></tr>
+
+        </table>
+      </div>
+
+    </div>
+
+  }
+
+</div>
