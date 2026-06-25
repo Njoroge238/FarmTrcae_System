@@ -1,0 +1,48 @@
+// =============================================
+// Shell Styles — FarmTrace Admin Portal
+// Layout wrapper that holds the entire portal
+// together after login.
+// =============================================
+
+// ── Outermost wrapper — full viewport height ──
+.admin-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: #f0f2f7;
+}
+
+// ── Body — sits below the navbar ──
+// Holds the main content and right panel side by side
+.admin-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+// ── Main content area — scrollable ──
+.admin-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #f0f2f7;
+  padding: 24px;
+
+  // Nice custom scrollbar
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 99px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+}

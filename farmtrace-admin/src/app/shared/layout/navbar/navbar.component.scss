@@ -1,0 +1,233 @@
+// =============================================
+// Navbar Styles — FarmTrace Admin Portal
+// Dark corporate top navigation bar
+// =============================================
+
+// ── Main navbar container ──
+.navbar {
+  background: #0a1628;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 0;
+  flex-shrink: 0;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.07);
+  position: relative;
+  z-index: 100;
+}
+
+// ── Left — Brand ──
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 24px;
+  border-right: 0.5px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(99, 195, 74, 0.12);
+  border: 0.5px solid rgba(99, 195, 74, 0.3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #63c34a;
+  }
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 1px;
+}
+
+// ── Center — Navigation links ──
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  padding: 0 20px;
+  overflow-x: auto;
+
+  // Hide scrollbar but keep scroll functionality
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+// Individual nav link
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+  }
+
+  // Hover state
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  // Active state — currently selected page
+  &.active {
+    background: rgba(24, 95, 165, 0.3);
+    color: #85b7eb;
+    font-weight: 500;
+  }
+}
+
+// Badge on nav link (e.g. pending farmers count)
+.nav-badge {
+  background: #ba7517;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 99px;
+  margin-left: 2px;
+  line-height: 1.4;
+}
+
+// ── Right — Actions + User ──
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+// Icon buttons (bell, settings)
+.nav-icon-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 7px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+}
+
+// Thin vertical separator line
+.nav-sep {
+  width: 0.5px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 6px;
+}
+
+// Admin user button
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+// Admin avatar square
+.nav-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #185fa5, #0c447c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b5d4f4;
+  flex-shrink: 0;
+}
+
+// Admin name and role text
+.nav-user-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.nav-user-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.2;
+}
+
+.nav-user-role {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 1px;
+}
+
+// Dropdown chevron icon
+.nav-chevron {
+  font-size: 16px !important;
+  width: 16px !important;
+  height: 16px !important;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+// Logout item in dropdown — red on hover
+.logout-item {
+  color: #e24b4a !important;
+
+  mat-icon {
+    color: #e24b4a !important;
+  }
+}

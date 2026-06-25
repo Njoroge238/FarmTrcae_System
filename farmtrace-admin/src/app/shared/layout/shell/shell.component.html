@@ -1,0 +1,26 @@
+<!-- =============================================
+     Shell Component — FarmTrace Admin Portal
+     The main layout wrapper for all protected
+     pages. Navbar sits at the top, content in
+     the middle and right panel on the right.
+     ============================================= -->
+
+<div class="admin-shell">
+
+  <!-- ── Top navbar — always visible after login ── -->
+  <app-navbar></app-navbar>
+
+  <!-- ── Body — content area + right panel ── -->
+  <div class="admin-body">
+
+    <!-- Main content — router loads each page here -->
+    <main class="admin-content" role="main">
+      <router-outlet></router-outlet>
+    </main>
+
+    <!-- Right stats panel -->
+    <app-right-panel></app-right-panel>
+
+  </div>
+
+</div>

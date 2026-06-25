@@ -1,0 +1,75 @@
+<!-- =============================================
+     Right Panel Component — FarmTrace Admin Portal
+     Fixed right side panel showing admin profile,
+     system overview stats, quick actions and
+     a sign out button at the bottom.
+     ============================================= -->
+
+<aside class="right-panel" aria-label="System overview panel">
+
+  <!-- ── Admin profile section ── -->
+  <div class="rp-profile">
+    <div class="rp-avatar">AD</div>
+    <div class="rp-info">
+      <span class="rp-name">Admin</span>
+      <span class="rp-role">Super administrator</span>
+    </div>
+    <div class="rp-online">
+      <div class="online-dot"></div>
+      <span>Online</span>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- ── System overview stats ── -->
+  <div class="rp-section">
+    <div class="rp-section-title">System overview</div>
+
+    @for (stat of systemStats; track stat.label) {
+      <div class="rp-stat">
+        <div class="rp-stat-left">
+          <mat-icon>{{ stat.icon }}</mat-icon>
+          <span>{{ stat.label }}</span>
+        </div>
+        <span class="rp-stat-val" [ngClass]="stat.colorClass">
+          {{ stat.value }}
+        </span>
+      </div>
+    }
+
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- ── Quick actions ── -->
+  <div class="rp-section">
+    <div class="rp-section-title">Quick actions</div>
+
+    @for (action of quickActions; track action.label) {
+      <button
+        class="rp-action-btn"
+        (click)="onQuickAction(action.route)"
+        [attr.aria-label]="action.label"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+        <span>{{ action.label }}</span>
+      </button>
+    }
+
+  </div>
+
+  <!-- ── Sign out button — pinned to bottom ── -->
+  <div class="rp-footer">
+    <mat-divider></mat-divider>
+    <button
+      class="rp-logout-btn"
+      (click)="onLogout()"
+      aria-label="Sign out"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Sign out</span>
+    </button>
+  </div>
+
+</aside>

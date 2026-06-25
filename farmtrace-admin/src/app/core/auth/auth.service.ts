@@ -1,7 +1,16 @@
+// =============================================
+// AuthService — FarmTrace Admin Portal
+// Handles login, logout and token management.
+// Talks to Spring Boot backend in production.
+// Uses mock data during development when
+// the backend is not yet running.
+// =============================================
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 // The shape of what we send to Spring Boot on login
 export interface LoginRequest {
@@ -15,13 +24,12 @@ export interface LoginResponse {
 }
 
 @Injectable({
-  providedIn: 'root' // available everywhere in the app
+  providedIn: 'root'
 })
 export class AuthService {
 
-  // Our Spring Boot backend base URL
-  // We'll move this to an environment file later
-  private apiUrl = 'http://localhost:8080';
+  // Our Spring Boot backend base URL — from environment file
+  private apiUrl = environment.apiUrl;
 
   // The key we use to store the token in the browser
   private tokenKey = 'farmtrace_admin_token';
@@ -33,12 +41,29 @@ export class AuthService {
 
   // -----------------------------------------------
   // Send email + password to Spring Boot
-  // Save the token we get back
+  // OR use mock login during development
   // -----------------------------------------------
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/login`, credentials).pipe(
+
+    // ── Mock login — used when backend is not ready ──
+    if (environment.useMockData) {
+
+      // Accept any email/password during development
+      // Save a fake token so the guard lets us through
+      const fakeToken = 'mock-jwt-token-farmtrace-admin-2025';
+      localStorage.setItem(this.tokenKey, fakeToken);
+
+      // Return a fake response that looks like the real one
+      return of({ token: fakeToken });
+    }
+
+    // ── Real login — used when backend is running ──
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/auth/login`,
+      credentials
+    ).pipe(
       tap(response => {
-        // Save the token in the browser's localStorage
+        // Save the real token from Spring Boot
         localStorage.setItem(this.tokenKey, response.token);
       })
     );
@@ -61,7 +86,6 @@ export class AuthService {
 
   // -----------------------------------------------
   // Check if the admin is currently logged in
-  // (used by the route guard)
   // -----------------------------------------------
   isLoggedIn(): boolean {
     return !!this.getToken();

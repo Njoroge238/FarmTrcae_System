@@ -1,0 +1,96 @@
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+
+  <!-- Brand -->
+  <div class="nav-brand">
+    <div class="brand-icon">
+      <mat-icon>eco</mat-icon>
+    </div>
+    <div class="brand-text">
+      <span class="brand-name">FarmTrace</span>
+      <span class="brand-sub">Admin Portal</span>
+    </div>
+  </div>
+
+  <!-- Navigation links -->
+  <div class="nav-links">
+    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+    <a class="nav-link" routerLink="/clerks" routerLinkActive="active">
+      <mat-icon>badge</mat-icon>
+      <span>Clerks</span>
+    </a>
+    <a class="nav-link" routerLink="/cooperatives" routerLinkActive="active">
+      <mat-icon>store</mat-icon>
+      <span>Cooperatives</span>
+    </a>
+    <a class="nav-link" routerLink="/farmers" routerLinkActive="active">
+      <mat-icon>agriculture</mat-icon>
+      <span>Farmers</span>
+    </a>
+    <a class="nav-link" routerLink="/reports" routerLinkActive="active">
+      <mat-icon>bar_chart</mat-icon>
+      <span>Reports</span>
+    </a>
+    <a class="nav-link" routerLink="/audit-log" routerLinkActive="active">
+      <mat-icon>security</mat-icon>
+      <span>Audit Log</span>
+    </a>
+  </div>
+
+  <!-- Right side -->
+  <div class="nav-right">
+
+    <button
+      mat-icon-button
+      class="nav-icon-btn"
+      matTooltip="Notifications"
+      aria-label="Notifications"
+    >
+      <mat-icon>notifications_none</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      class="nav-icon-btn"
+      matTooltip="Settings"
+      aria-label="Settings"
+    >
+      <mat-icon>settings</mat-icon>
+    </button>
+
+    <div class="nav-sep"></div>
+
+    <button
+      class="nav-user"
+      [matMenuTriggerFor]="userMenu"
+      aria-label="User menu"
+    >
+      <div class="nav-avatar">AD</div>
+      <div class="nav-user-info">
+        <span class="nav-user-name">Admin</span>
+        <span class="nav-user-role">Super administrator</span>
+      </div>
+      <mat-icon class="nav-chevron">expand_more</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item disabled>
+        <mat-icon>person_outline</mat-icon>
+        <span>My profile</span>
+      </button>
+      <button mat-menu-item disabled>
+        <mat-icon>lock_outline</mat-icon>
+        <span>Change password</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="onLogout()" class="logout-item">
+        <mat-icon>logout</mat-icon>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+
+  </div>
+
+</nav>
