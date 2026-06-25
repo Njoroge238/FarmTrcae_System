@@ -4,6 +4,7 @@
 // Shows KPI cards, recent clerks and
 // recent cooperatives using mock data for now.
 // View all buttons navigate to full pages.
+// Refresh button shows loading spinner.
 // =============================================
 
 import { Component, OnInit } from '@angular/core';
@@ -87,23 +88,28 @@ export class DashboardComponent implements OnInit {
   loadDashboardData(): void {
     this.isLoading = true;
 
-    // Load the summary stats for KPI cards
-    this.mockDataService.getDashboardSummary().subscribe(summary => {
-      this.buildKpiCards(summary);
-    });
+    // Small delay to show the spinner visually
+    // With real API this delay won't be needed —
+    // the actual network call will take its place
+    setTimeout(() => {
 
-    // Load recent clerks for the table
-    this.mockDataService.getClerks().subscribe(clerks => {
-      // Show only the 5 most recent clerks
-      this.recentClerks = clerks.slice(0, 5);
-    });
+      // Load the summary stats for KPI cards
+      this.mockDataService.getDashboardSummary().subscribe(summary => {
+        this.buildKpiCards(summary);
+      });
 
-    // Load recent cooperatives for the table
-    this.mockDataService.getCooperatives().subscribe(cooperatives => {
-      // Show only the 5 most recent cooperatives
-      this.recentCooperatives = cooperatives.slice(0, 5);
-      this.isLoading = false;
-    });
+      // Load recent clerks for the table
+      this.mockDataService.getClerks().subscribe(clerks => {
+        this.recentClerks = clerks.slice(0, 5);
+      });
+
+      // Load recent cooperatives for the table
+      this.mockDataService.getCooperatives().subscribe(cooperatives => {
+        this.recentCooperatives = cooperatives.slice(0, 5);
+        this.isLoading = false;
+      });
+
+    }, 800); // 800ms delay so the spinner is visible
   }
 
   // -----------------------------------------------
