@@ -1,0 +1,431 @@
+// =============================================
+// Clerks Page Styles — FarmTrace Admin Portal
+// Full clerks management page styles
+// =============================================
+
+// ── Page wrapper ──
+.clerks-page {
+  width: 100%;
+}
+
+// ── Page header ──
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+// Header action buttons
+.header-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &.primary {
+    background: #185fa5;
+    color: #ffffff;
+    border-color: #185fa5;
+
+    &:hover {
+      background: #1a6dbf;
+    }
+  }
+}
+
+// ── Create clerk form panel ──
+.create-panel {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  border-left: 3px solid #185fa5;
+}
+
+.create-panel-header {
+  margin-bottom: 20px;
+}
+
+.create-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0a1628;
+  margin-bottom: 6px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #185fa5;
+  }
+}
+
+.create-panel-sub {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// Form grid — 2 columns
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+// Info note about auto email
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #e6f1fb;
+  border: 0.5px solid #b5d4f4;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #0d3a6e;
+  line-height: 1.5;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+    color: #185fa5;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+}
+
+// Form action buttons
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+}
+
+.submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  background: #185fa5;
+  color: #ffffff;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover:not(:disabled) {
+    background: #1a6dbf;
+  }
+
+  &:disabled {
+    background: rgba(24, 95, 165, 0.4);
+    cursor: not-allowed;
+  }
+}
+
+// ── Search bar ──
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 16px;
+}
+
+.search-icon {
+  font-size: 19px;
+  width: 19px;
+  height: 19px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #1a2236;
+  background: transparent;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.search-count {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// ── Loading spinner ──
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+// ── Table card ──
+.table-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+// ── Material table overrides ──
+.ft-table {
+  width: 100%;
+
+  .mat-mdc-header-row {
+    background: #f8f9fb;
+    height: 40px;
+  }
+
+  .mat-mdc-header-cell {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 14px;
+  }
+
+  .mat-mdc-row {
+    height: 56px;
+    transition: background 0.1s ease;
+
+    &:hover {
+      background: #f8f9fb;
+    }
+
+    &:last-child .mat-mdc-cell {
+      border-bottom: none;
+    }
+  }
+
+  .mat-mdc-cell {
+    font-size: 12px;
+    color: #374151;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 14px;
+  }
+}
+
+// ── Table cell helpers ──
+.td-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.td-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #e6f1fb;
+  color: #185fa5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.td-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0a1628;
+}
+
+.td-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.td-email {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.td-region {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #374151;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+  }
+}
+
+.td-coop {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+// ── Status pills ──
+.status-pill {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &.status-active {
+    background: #eaf3de;
+    color: #3b6d11;
+  }
+
+  &.status-inactive {
+    background: #f3f4f6;
+    color: #6b7280;
+  }
+}
+
+// ── Delete button ──
+.delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  border: 0.5px solid #e5e7eb;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background: #fce8e8;
+    border-color: #f09595;
+    color: #a32d2d;
+  }
+}
+
+// ── Empty state ──
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d1d5db;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  span {
+    font-size: 12px;
+    color: #9ca3af;
+  }
+}

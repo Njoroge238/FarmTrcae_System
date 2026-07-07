@@ -1,1 +1,263 @@
-<p>clerks works!</p>
+<!-- =============================================
+     Clerks Component — FarmTrace Admin Portal
+     Full clerks management page. Admin can view,
+     search, create and delete clerk accounts.
+     ============================================= -->
+
+<div class="clerks-page">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Clerks</h1>
+      <p class="page-subtitle">
+        Manage all clerk accounts across the cooperative network.
+        Clerks approve and reject farmer registrations.
+      </p>
+    </div>
+    <div class="page-header-right">
+      <button class="header-btn primary" (click)="toggleCreateForm()">
+        <mat-icon>{{ showCreateForm ? 'close' : 'person_add' }}</mat-icon>
+        <span>{{ showCreateForm ? 'Cancel' : 'Add clerk' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Create clerk form panel ── -->
+  @if (showCreateForm) {
+    <div class="create-panel">
+
+      <div class="create-panel-header">
+        <div class="create-panel-title">
+          <mat-icon>person_add</mat-icon>
+          <span>Create new clerk account</span>
+        </div>
+        <p class="create-panel-sub">
+          Fill in the details below. The clerk will automatically
+          receive their login credentials via email.
+        </p>
+      </div>
+
+      <form [formGroup]="createForm" (ngSubmit)="onCreateClerk()">
+        <div class="form-grid">
+
+          <!-- Full name -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Full name</mat-label>
+            <input
+              matInput
+              formControlName="fullName"
+              placeholder="e.g. Jane Mwangi"
+            />
+            <mat-icon matSuffix>person</mat-icon>
+            @if (createForm.get('fullName')?.hasError('required') &&
+                 createForm.get('fullName')?.touched) {
+              <mat-error>Full name is required</mat-error>
+            }
+            @if (createForm.get('fullName')?.hasError('minlength') &&
+                 createForm.get('fullName')?.touched) {
+              <mat-error>Name must be at least 3 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Email address -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email address</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="e.g. jane@farmtrace.co"
+            />
+            <mat-icon matSuffix>mail_outline</mat-icon>
+            @if (createForm.get('email')?.hasError('required') &&
+                 createForm.get('email')?.touched) {
+              <mat-error>Email is required</mat-error>
+            }
+            @if (createForm.get('email')?.hasError('email') &&
+                 createForm.get('email')?.touched) {
+              <mat-error>Please enter a valid email address</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Region -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="region">
+              @for (region of regions; track region) {
+                <mat-option [value]="region">{{ region }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>location_on</mat-icon>
+            @if (createForm.get('region')?.hasError('required') &&
+                 createForm.get('region')?.touched) {
+              <mat-error>Please select a region</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Cooperative -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Cooperative</mat-label>
+            <mat-select formControlName="cooperativeName">
+              @for (coop of cooperatives; track coop) {
+                <mat-option [value]="coop">{{ coop }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>store</mat-icon>
+            @if (createForm.get('cooperativeName')?.hasError('required') &&
+                 createForm.get('cooperativeName')?.touched) {
+              <mat-error>Please select a cooperative</mat-error>
+            }
+          </mat-form-field>
+
+        </div>
+
+        <!-- Info note about auto email -->
+        <div class="info-note">
+          <mat-icon>info_outline</mat-icon>
+          <span>
+            A secure temporary password will be automatically
+            generated and sent to the clerk's email address.
+            The clerk will be required to change it on first login.
+          </span>
+        </div>
+
+        <!-- Form action buttons -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="toggleCreateForm()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="createForm.invalid || isCreating"
+          >
+            @if (isCreating) {
+              <mat-spinner diameter="18"></mat-spinner>
+              <span>Creating account...</span>
+            } @else {
+              <mat-icon>person_add</mat-icon>
+              <span>Create clerk account</span>
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+  <!-- ── Search bar ── -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search clerks by name, email or region..."
+      (input)="onSearch($event)"
+    />
+    <span class="search-count">
+      {{ filteredClerks.length }} clerk{{ filteredClerks.length !== 1 ? 's' : '' }} found
+    </span>
+  </div>
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading clerks...</p>
+    </div>
+  }
+
+  <!-- ── Clerks table ── -->
+  @if (!isLoading) {
+    <div class="table-card">
+      <table mat-table [dataSource]="filteredClerks" class="ft-table">
+
+        <!-- Name column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let clerk">
+            <div class="td-user">
+              <div class="td-avatar">{{ clerk.fullName.charAt(0) }}</div>
+              <div>
+                <div class="td-name">{{ clerk.fullName }}</div>
+                <div class="td-sub">Clerk</div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Email column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let clerk">
+            <span class="td-email">{{ clerk.email }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Region column -->
+        <ng-container matColumnDef="region">
+          <th mat-header-cell *matHeaderCellDef>Region</th>
+          <td mat-cell *matCellDef="let clerk">
+            <span class="td-region">
+              <mat-icon>location_on</mat-icon>
+              {{ clerk.region }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Cooperative column -->
+        <ng-container matColumnDef="cooperative">
+          <th mat-header-cell *matHeaderCellDef>Cooperative</th>
+          <td mat-cell *matCellDef="let clerk">
+            <span class="td-coop">{{ clerk.cooperativeName }}</span>
+          </td>
+        </ng-container>
+
+        <!-- Status column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let clerk">
+            <span class="status-pill" [ngClass]="getStatusClass(clerk.status)">
+              {{ clerk.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let clerk">
+            <button
+              class="delete-btn"
+              (click)="onDeleteClerk(clerk)"
+              matTooltip="Delete clerk"
+              aria-label="Delete clerk"
+            >
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
+      </table>
+
+      <!-- Empty state — shown when no clerks found -->
+      @if (filteredClerks.length === 0) {
+        <div class="empty-state">
+          <mat-icon>person_off</mat-icon>
+          <p>No clerks found</p>
+          <span>Try adjusting your search or add a new clerk</span>
+        </div>
+      }
+
+    </div>
+  }
+
+</div>
