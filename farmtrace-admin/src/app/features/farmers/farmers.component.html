@@ -1,1 +1,260 @@
-<p>farmers works!</p>
+<!-- =============================================
+     Farmers Component — FarmTrace Admin Portal
+     Full farmers visibility page. Admin can view
+     and filter all farmers. Read only — admin
+     cannot approve or reject farmers.
+     ============================================= -->
+
+<div class="farmers-page">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Farmers</h1>
+      <p class="page-subtitle">
+        Full visibility over all farmers across every cooperative.
+        Approval and rejection is handled by clerks on the mobile app.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Search bar ── -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search farmers by name, email, region or cooperative..."
+      (input)="onSearch($event)"
+    />
+    <span class="search-count">
+      {{ filteredFarmers.length }}
+      farmer{{ filteredFarmers.length !== 1 ? 's' : '' }} found
+    </span>
+  </div>
+
+  <!-- ── Filter tabs ── -->
+  @if (!isLoading) {
+    <div class="filter-tabs">
+      @for (tab of filterTabs; track tab.value) {
+        <button
+          class="filter-tab"
+          [class.active]="activeFilter === tab.value"
+          [class]="activeFilter === tab.value ?
+            'filter-tab active ' + tab.value.toLowerCase() :
+            'filter-tab'"
+          (click)="setFilter(tab.value)"
+        >
+          <span>{{ tab.label }}</span>
+          <span class="tab-count">{{ tab.count }}</span>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- ── Main content area ── -->
+  <div class="content-area" [class.has-panel]="selectedFarmer">
+
+    <!-- ── Loading spinner ── -->
+    @if (isLoading) {
+      <div class="loading-wrapper">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading farmers...</p>
+      </div>
+    }
+
+    <!-- ── Farmers table ── -->
+    @if (!isLoading) {
+      <div class="table-card">
+        <table mat-table [dataSource]="filteredFarmers" class="ft-table">
+
+          <!-- Name column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let farmer">
+              <div class="td-user">
+                <div class="td-avatar"
+                  [class.selected]="selectedFarmer?.id === farmer.id">
+                  {{ getAvatar(farmer.fullName) }}
+                </div>
+                <div>
+                  <div class="td-name">{{ farmer.fullName }}</div>
+                  <div class="td-sub">Farmer</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Email column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let farmer">
+              <span class="td-email">{{ farmer.email }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Region column -->
+          <ng-container matColumnDef="region">
+            <th mat-header-cell *matHeaderCellDef>Region</th>
+            <td mat-cell *matCellDef="let farmer">
+              <div class="td-region">
+                <mat-icon>location_on</mat-icon>
+                {{ farmer.region }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Cooperative column -->
+          <ng-container matColumnDef="cooperative">
+            <th mat-header-cell *matHeaderCellDef>Cooperative</th>
+            <td mat-cell *matCellDef="let farmer">
+              <span class="td-coop">{{ farmer.cooperativeName }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Crop type column -->
+          <ng-container matColumnDef="crop">
+            <th mat-header-cell *matHeaderCellDef>Crop</th>
+            <td mat-cell *matCellDef="let farmer">
+              <span class="crop-pill">
+                <mat-icon>grass</mat-icon>
+                {{ farmer.cropType }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Status column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let farmer">
+              <span class="status-pill"
+                [ngClass]="getStatusClass(farmer.status)">
+                {{ farmer.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: columns;"
+            class="clickable-row"
+            [class.selected-row]="selectedFarmer?.id === row.id"
+            (click)="onSelectFarmer(row)"
+            matTooltip="Click to view farmer details"
+          ></tr>
+
+        </table>
+
+        <!-- Empty state -->
+        @if (filteredFarmers.length === 0) {
+          <div class="empty-state">
+            <mat-icon>agriculture</mat-icon>
+            <p>No farmers found</p>
+            <span>Try adjusting your search or filter</span>
+          </div>
+        }
+
+      </div>
+    }
+
+    <!-- ── Farmer detail side panel ── -->
+    @if (selectedFarmer) {
+      <div class="detail-panel">
+
+        <!-- Panel header -->
+        <div class="panel-header">
+          <div class="panel-title">Farmer profile</div>
+          <button
+            class="close-btn"
+            (click)="closePanel()"
+            aria-label="Close panel"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Farmer avatar and name -->
+        <div class="panel-profile">
+          <div class="panel-avatar">
+            {{ getAvatar(selectedFarmer.fullName) }}
+          </div>
+          <div class="panel-name">{{ selectedFarmer.fullName }}</div>
+          <span class="status-pill"
+            [ngClass]="getStatusClass(selectedFarmer.status)">
+            {{ selectedFarmer.status }}
+          </span>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- Farmer details -->
+        <div class="panel-details">
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>mail_outline</mat-icon>
+              <span>Email</span>
+            </div>
+            <div class="detail-val">{{ selectedFarmer.email }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>phone</mat-icon>
+              <span>Phone</span>
+            </div>
+            <div class="detail-val">{{ selectedFarmer.phone }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>location_on</mat-icon>
+              <span>Region</span>
+            </div>
+            <div class="detail-val">{{ selectedFarmer.region }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>store</mat-icon>
+              <span>Cooperative</span>
+            </div>
+            <div class="detail-val">{{ selectedFarmer.cooperativeName }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>grass</mat-icon>
+              <span>Crop type</span>
+            </div>
+            <div class="detail-val">{{ selectedFarmer.cropType }}</div>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-label">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Registered</span>
+            </div>
+            <div class="detail-val">
+              {{ selectedFarmer.registeredAt | date: 'dd MMM yyyy' }}
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Read only notice -->
+        <div class="readonly-notice">
+          <mat-icon>info_outline</mat-icon>
+          <span>
+            Farmer approval and rejection is managed
+            by clerks on the mobile app.
+          </span>
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+</div>
