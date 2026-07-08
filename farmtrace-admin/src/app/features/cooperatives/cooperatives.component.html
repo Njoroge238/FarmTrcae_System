@@ -1,1 +1,280 @@
-<p>cooperatives works!</p>
+<!-- =============================================
+     Cooperatives Component — FarmTrace Admin Portal
+     Full cooperatives management page with
+     stat cards, regions breakdown, create form,
+     search and cooperative cards with detail view.
+     ============================================= -->
+
+<div class="cooperatives-page">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Cooperatives</h1>
+      <p class="page-subtitle">
+        Manage all cooperatives in the FarmTrace network.
+        View members, farmer counts and crop types.
+      </p>
+    </div>
+    <button class="header-btn primary" (click)="toggleCreateForm()">
+      <mat-icon>{{ showCreateForm ? 'close' : 'add_business' }}</mat-icon>
+      <span>{{ showCreateForm ? 'Cancel' : 'Add cooperative' }}</span>
+    </button>
+  </div>
+
+  <!-- ── Summary stat cards ── -->
+  @if (!isLoading) {
+    <div class="stats-grid">
+
+      <!-- Total cooperatives -->
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <mat-icon>store</mat-icon>
+        </div>
+        <div class="stat-val">{{ allCooperatives.length }}</div>
+        <div class="stat-lbl">Total cooperatives</div>
+        <div class="stat-bar blue"></div>
+      </div>
+
+      <!-- Total farmers -->
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <mat-icon>agriculture</mat-icon>
+        </div>
+        <div class="stat-val">{{ totalFarmers }}</div>
+        <div class="stat-lbl">Total farmers</div>
+        <div class="stat-bar green"></div>
+      </div>
+
+      <!-- Regions covered — clickable to show breakdown -->
+      <div class="stat-card clickable" (click)="toggleRegions()">
+        <div class="stat-icon amber">
+          <mat-icon>location_on</mat-icon>
+        </div>
+        <div class="stat-val">{{ totalRegions }}</div>
+        <div class="stat-lbl">
+          Regions covered
+          <mat-icon class="expand-icon">
+            {{ showRegions ? 'expand_less' : 'expand_more' }}
+          </mat-icon>
+        </div>
+        <div class="stat-bar amber"></div>
+
+        <!-- Regions breakdown — shown when clicked -->
+        @if (showRegions) {
+          <div class="regions-list" (click)="$event.stopPropagation()">
+            @for (region of regionsList; track region) {
+              <div class="region-item">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ region }}</span>
+                <span class="region-count">
+                  {{ allCooperatives | regionCount: region }}
+                  coop{{ (allCooperatives | regionCount: region) !== 1 ? 's' : '' }}
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+
+  <!-- ── Create cooperative form panel ── -->
+  @if (showCreateForm) {
+    <div class="create-panel">
+      <div class="create-panel-header">
+        <div class="create-panel-title">
+          <mat-icon>add_business</mat-icon>
+          <span>Add new cooperative</span>
+        </div>
+        <p class="create-panel-sub">
+          Fill in the details below to register a new
+          cooperative in the FarmTrace network.
+        </p>
+      </div>
+
+      <form [formGroup]="createForm" (ngSubmit)="onCreateCooperative()">
+        <div class="form-grid">
+
+          <!-- Cooperative name -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Cooperative name</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="e.g. Kiambu Tea SACCO"
+            />
+            <mat-icon matSuffix>store</mat-icon>
+            @if (createForm.get('name')?.hasError('required') &&
+                 createForm.get('name')?.touched) {
+              <mat-error>Cooperative name is required</mat-error>
+            }
+            @if (createForm.get('name')?.hasError('minlength') &&
+                 createForm.get('name')?.touched) {
+              <mat-error>Name must be at least 3 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Region -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="region">
+              @for (region of regions; track region) {
+                <mat-option [value]="region">{{ region }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>location_on</mat-icon>
+            @if (createForm.get('region')?.hasError('required') &&
+                 createForm.get('region')?.touched) {
+              <mat-error>Please select a region</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Crop type -->
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Crop type</mat-label>
+            <mat-select formControlName="cropType">
+              @for (crop of cropTypes; track crop) {
+                <mat-option [value]="crop">{{ crop }}</mat-option>
+              }
+            </mat-select>
+            <mat-icon matSuffix>grass</mat-icon>
+            @if (createForm.get('cropType')?.hasError('required') &&
+                 createForm.get('cropType')?.touched) {
+              <mat-error>Please select a crop type</mat-error>
+            }
+          </mat-form-field>
+
+        </div>
+
+        <!-- Form action buttons -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="toggleCreateForm()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="createForm.invalid || isCreating"
+          >
+            @if (isCreating) {
+              <mat-spinner diameter="18"></mat-spinner>
+              <span>Creating...</span>
+            } @else {
+              <mat-icon>add_business</mat-icon>
+              <span>Create cooperative</span>
+            }
+          </button>
+        </div>
+
+      </form>
+    </div>
+  }
+
+  <!-- ── Search bar ── -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search cooperatives by name or region..."
+      (input)="onSearch($event)"
+    />
+    <span class="search-count">
+      {{ filteredCooperatives.length }}
+      cooperative{{ filteredCooperatives.length !== 1 ? 's' : '' }} found
+    </span>
+  </div>
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading cooperatives...</p>
+    </div>
+  }
+
+  <!-- ── Cooperatives card grid ── -->
+  @if (!isLoading) {
+    <div class="coop-grid">
+
+      @for (coop of filteredCooperatives; track coop.id) {
+        <div class="coop-card">
+
+          <!-- Card header -->
+          <div class="card-header">
+            <div class="card-brand">
+              <div class="card-avatar">{{ getAvatar(coop.name) }}</div>
+              <div>
+                <div class="card-name">{{ coop.name }}</div>
+                <div class="card-region">
+                  <mat-icon>location_on</mat-icon>
+                  {{ coop.region }}
+                </div>
+              </div>
+            </div>
+            <button
+              class="delete-btn"
+              (click)="onDeleteCooperative(coop)"
+              matTooltip="Delete cooperative"
+              aria-label="Delete cooperative"
+            >
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+          </div>
+
+          <!-- Card stats -->
+          <div class="card-stats">
+            <div class="card-stat">
+              <div class="card-stat-val blue">{{ coop.farmerCount }}</div>
+              <div class="card-stat-lbl">Farmers</div>
+            </div>
+            <div class="card-stat">
+              <div class="card-stat-val green">{{ coop.clerkCount }}</div>
+              <div class="card-stat-lbl">Clerks</div>
+            </div>
+            <div class="card-stat">
+              <div class="card-stat-val">
+                {{ coop.createdAt | date: 'MMM y' }}
+              </div>
+              <div class="card-stat-lbl">Created</div>
+            </div>
+          </div>
+
+          <!-- Card footer -->
+          <div class="card-footer">
+            <span class="crop-pill">
+              <mat-icon>grass</mat-icon>
+              {{ getCropType(coop) }}
+            </span>
+            <button
+              class="view-btn"
+              (click)="onViewDetails(coop)"
+            >
+              <mat-icon>open_in_new</mat-icon>
+              <span>View details</span>
+            </button>
+          </div>
+
+        </div>
+      }
+
+    </div>
+
+    <!-- Empty state -->
+    @if (filteredCooperatives.length === 0) {
+      <div class="empty-state">
+        <mat-icon>store</mat-icon>
+        <p>No cooperatives found</p>
+        <span>Try adjusting your search or add a new cooperative</span>
+      </div>
+    }
+
+  }
+
+</div>

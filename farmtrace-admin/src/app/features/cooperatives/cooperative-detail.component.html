@@ -1,0 +1,267 @@
+<!-- =============================================
+     Cooperative Detail — FarmTrace Admin Portal
+     Shows full details of a single cooperative
+     including assigned clerks and all farmers.
+     ============================================= -->
+
+<div class="detail-page">
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading cooperative details...</p>
+    </div>
+  }
+
+  @if (!isLoading && cooperative) {
+
+    <!-- ── Page header with back button ── -->
+    <div class="page-header">
+      <button class="back-btn" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        <span>Back to cooperatives</span>
+      </button>
+    </div>
+
+    <!-- ── Cooperative profile card ── -->
+    <div class="profile-card">
+      <div class="profile-left">
+        <div class="profile-avatar">
+          {{ cooperative.name.charAt(0) }}
+        </div>
+        <div class="profile-info">
+          <h1 class="profile-name">{{ cooperative.name }}</h1>
+          <div class="profile-meta">
+            <div class="meta-item">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ cooperative.region }}</span>
+            </div>
+            <div class="meta-item">
+              <mat-icon>grass</mat-icon>
+              <span>{{ cooperative.cropType || 'Mixed' }}</span>
+            </div>
+            <div class="meta-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Since {{ cooperative.createdAt | date: 'MMM yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-val blue">{{ clerks.length }}</div>
+          <div class="profile-stat-lbl">Clerks</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val green">
+            {{ getFarmerCount('APPROVED') }}
+          </div>
+          <div class="profile-stat-lbl">Approved</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val amber">
+            {{ getFarmerCount('PENDING') }}
+          </div>
+          <div class="profile-stat-lbl">Pending</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val red">
+            {{ getFarmerCount('REJECTED') }}
+          </div>
+          <div class="profile-stat-lbl">Rejected</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val">{{ farmers.length }}</div>
+          <div class="profile-stat-lbl">Total farmers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Tabs — Clerks | Farmers ── -->
+    <div class="tabs">
+      <button
+        class="tab"
+        [class.active]="activeTab === 'clerks'"
+        (click)="setTab('clerks')"
+      >
+        <mat-icon>badge</mat-icon>
+        <span>Clerks</span>
+        <span class="tab-count">{{ clerks.length }}</span>
+      </button>
+      <button
+        class="tab"
+        [class.active]="activeTab === 'farmers'"
+        (click)="setTab('farmers')"
+      >
+        <mat-icon>agriculture</mat-icon>
+        <span>Farmers</span>
+        <span class="tab-count">{{ farmers.length }}</span>
+      </button>
+    </div>
+
+    <!-- ── Clerks tab content ── -->
+    @if (activeTab === 'clerks') {
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <div class="table-card-title">
+              Assigned clerks
+            </div>
+            <div class="table-card-sub">
+              All clerks managing {{ cooperative.name }}
+            </div>
+          </div>
+        </div>
+
+        @if (clerks.length === 0) {
+          <div class="empty-state">
+            <mat-icon>badge</mat-icon>
+            <p>No clerks assigned</p>
+            <span>Go to the Clerks page to assign a clerk to this cooperative</span>
+          </div>
+        } @else {
+          <table mat-table [dataSource]="clerks" class="ft-table">
+
+            <!-- Name column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let clerk">
+                <div class="td-user">
+                  <div class="td-avatar blue">
+                    {{ getAvatar(clerk.fullName) }}
+                  </div>
+                  <div>
+                    <div class="td-name">{{ clerk.fullName }}</div>
+                    <div class="td-sub">Clerk</div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Email column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let clerk">
+                <span class="td-email">{{ clerk.email }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Region column -->
+            <ng-container matColumnDef="region">
+              <th mat-header-cell *matHeaderCellDef>Region</th>
+              <td mat-cell *matCellDef="let clerk">
+                <div class="td-region">
+                  <mat-icon>location_on</mat-icon>
+                  {{ clerk.region }}
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Status column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let clerk">
+                <span class="status-pill"
+                  [ngClass]="getStatusClass(clerk.status)">
+                  {{ clerk.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="clerkColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: clerkColumns;"></tr>
+
+          </table>
+        }
+      </div>
+    }
+
+    <!-- ── Farmers tab content ── -->
+    @if (activeTab === 'farmers') {
+      <div class="table-card">
+        <div class="table-card-header">
+          <div>
+            <div class="table-card-title">Farmers</div>
+            <div class="table-card-sub">
+              All farmers registered under {{ cooperative.name }}
+            </div>
+          </div>
+        </div>
+
+        @if (farmers.length === 0) {
+          <div class="empty-state">
+            <mat-icon>agriculture</mat-icon>
+            <p>No farmers registered</p>
+            <span>Farmers register via the mobile app and appear here once submitted</span>
+          </div>
+        } @else {
+          <table mat-table [dataSource]="farmers" class="ft-table">
+
+            <!-- Name column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let farmer">
+                <div class="td-user">
+                  <div class="td-avatar green">
+                    {{ getAvatar(farmer.fullName) }}
+                  </div>
+                  <div>
+                    <div class="td-name">{{ farmer.fullName }}</div>
+                    <div class="td-sub">Farmer</div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Email column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let farmer">
+                <span class="td-email">{{ farmer.email }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Phone column -->
+            <ng-container matColumnDef="phone">
+              <th mat-header-cell *matHeaderCellDef>Phone</th>
+              <td mat-cell *matCellDef="let farmer">
+                {{ farmer.phone }}
+              </td>
+            </ng-container>
+
+            <!-- Crop type column -->
+            <ng-container matColumnDef="cropType">
+              <th mat-header-cell *matHeaderCellDef>Crop</th>
+              <td mat-cell *matCellDef="let farmer">
+                <span class="crop-pill">
+                  <mat-icon>grass</mat-icon>
+                  {{ farmer.cropType }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Status column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let farmer">
+                <span class="status-pill"
+                  [ngClass]="getStatusClass(farmer.status)">
+                  {{ farmer.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="farmerColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: farmerColumns;"></tr>
+
+          </table>
+        }
+      </div>
+    }
+
+  }
+
+</div>

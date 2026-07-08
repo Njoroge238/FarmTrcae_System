@@ -1,0 +1,393 @@
+// =============================================
+// Cooperative Detail Styles — FarmTrace Admin
+// Full detail page for a single cooperative
+// showing clerks and farmers in tabs
+// =============================================
+
+// ── Page wrapper ──
+.detail-page {
+  width: 100%;
+}
+
+// ── Loading spinner ──
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+// ── Page header with back button ──
+.page-header {
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  &:hover {
+    background: #f3f4f6;
+    color: #0a1628;
+  }
+}
+
+// ── Cooperative profile card ──
+.profile-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.profile-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+// Large cooperative avatar
+.profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #eaf3de;
+  color: #3b6d11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0 0 8px 0;
+}
+
+.profile-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #6b7280;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    color: #9ca3af;
+  }
+}
+
+// Quick stats on the right side of profile
+.profile-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.profile-stat {
+  text-align: center;
+}
+
+.profile-stat-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0a1628;
+  line-height: 1;
+
+  &.blue  { color: #185fa5; }
+  &.green { color: #3b6d11; }
+  &.amber { color: #ba7517; }
+  &.red   { color: #a32d2d; }
+}
+
+.profile-stat-lbl {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+// ── Tabs ──
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 4px;
+  width: fit-content;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  transition: all 0.15s ease;
+
+  mat-icon {
+    font-size: 17px;
+    width: 17px;
+    height: 17px;
+  }
+
+  // Active tab
+  &.active {
+    background: #185fa5;
+    color: #ffffff;
+
+    .tab-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+  }
+
+  &:hover:not(.active) {
+    background: #f3f4f6;
+    color: #0a1628;
+  }
+}
+
+// Count badge on tab
+.tab-count {
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 99px;
+  transition: all 0.15s ease;
+}
+
+// ── Table card ──
+.table-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 0.5px solid #f3f4f6;
+}
+
+.table-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1628;
+}
+
+.table-card-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+// ── Material table overrides ──
+.ft-table {
+  width: 100%;
+
+  .mat-mdc-header-row {
+    background: #f8f9fb;
+    height: 40px;
+  }
+
+  .mat-mdc-header-cell {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 14px;
+  }
+
+  .mat-mdc-row {
+    height: 56px;
+    transition: background 0.1s ease;
+
+    &:hover { background: #f8f9fb; }
+
+    &:last-child .mat-mdc-cell {
+      border-bottom: none;
+    }
+  }
+
+  .mat-mdc-cell {
+    font-size: 12px;
+    color: #374151;
+    border-bottom: 0.5px solid #f3f4f6;
+    padding: 0 14px;
+  }
+}
+
+// ── Table cell helpers ──
+.td-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.td-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+
+  &.blue  { background: #e6f1fb; color: #185fa5; }
+  &.green { background: #eaf3de; color: #3b6d11; }
+}
+
+.td-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #0a1628;
+}
+
+.td-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.td-email {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.td-region {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #374151;
+
+  mat-icon {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #9ca3af;
+  }
+}
+
+// ── Status pills ──
+.status-pill {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &.status-active    { background: #eaf3de; color: #3b6d11; }
+  &.status-pending   { background: #faeeda; color: #ba7517; }
+  &.status-rejected  { background: #fce8e8; color: #a32d2d; }
+  &.status-unverified{ background: #f3f4f6; color: #6b7280; }
+  &.status-inactive  { background: #f3f4f6; color: #6b7280; }
+}
+
+// ── Crop type pill ──
+.crop-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 500;
+  background: #eaf3de;
+  color: #3b6d11;
+
+  mat-icon {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+  }
+}
+
+// ── Empty state ──
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #d1d5db;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  span {
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+    max-width: 300px;
+  }
+}

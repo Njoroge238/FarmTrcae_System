@@ -16,7 +16,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
 
-  // Login page — publicly accessible, no guard needed
+  // Login page — publicly accessible
   {
     path: 'login',
     loadComponent: () =>
@@ -25,7 +25,6 @@ export const routes: Routes = [
   },
 
   // All protected pages load inside the shell
-  // The shell gives them the navbar and right panel
   {
     path: '',
     canActivate: [authGuard],
@@ -50,12 +49,20 @@ export const routes: Routes = [
             .then(m => m.ClerksComponent)
       },
 
-      // Cooperatives
+      // Cooperatives list
       {
         path: 'cooperatives',
         loadComponent: () =>
           import('./features/cooperatives/cooperatives.component')
             .then(m => m.CooperativesComponent)
+      },
+
+      // Cooperative detail page — shows clerks and farmers
+      {
+        path: 'cooperatives/:id',
+        loadComponent: () =>
+          import('./features/cooperatives/cooperative-detail.component')
+            .then(m => m.CooperativeDetailComponent)
       },
 
       // Farmers

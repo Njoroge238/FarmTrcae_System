@@ -2,7 +2,8 @@
 // Clerks Component — FarmTrace Admin Portal
 // Full clerks management page. Admin can view,
 // search, create and delete clerk accounts.
-// Uses mock data now — swaps to real API later.
+// Now uses the shared mock data service so
+// stats update everywhere when changes are made.
 // =============================================
 
 import { Component, OnInit } from '@angular/core';
@@ -102,7 +103,7 @@ export class ClerksComponent implements OnInit {
   }
 
   // -----------------------------------------------
-  // Fetch all clerks from the mock service
+  // Fetch all clerks from the shared mock service
   // -----------------------------------------------
   loadClerks(): void {
     this.isLoading = true;
@@ -138,14 +139,14 @@ export class ClerksComponent implements OnInit {
   }
 
   // -----------------------------------------------
-  // Create a new clerk and add to the list
+  // Create a new clerk using the shared service
+  // so the stats update everywhere automatically
   // -----------------------------------------------
   onCreateClerk(): void {
     if (this.createForm.invalid) return;
 
     this.isCreating = true;
 
-    // Simulate API call delay
     setTimeout(() => {
       const formValue = this.createForm.value;
 
@@ -160,45 +161,48 @@ export class ClerksComponent implements OnInit {
         createdAt: new Date().toISOString().split('T')[0]
       };
 
-      // Add to the list
-      this.allClerks = [newClerk, ...this.allClerks];
-      this.filteredClerks = [newClerk, ...this.filteredClerks];
+      // Add via shared service — updates stats everywhere
+      this.mockDataService.addClerk(newClerk).subscribe(() => {
+        this.allClerks = [newClerk, ...this.allClerks];
+        this.filteredClerks = [newClerk, ...this.filteredClerks];
 
-      // Reset and close the form
-      this.isCreating = false;
-      this.showCreateForm = false;
-      this.createForm.reset();
+        this.isCreating = false;
+        this.showCreateForm = false;
+        this.createForm.reset();
 
-      // Show success message
-      this.snackBar.open(
-        `Clerk account created for ${newClerk.fullName}`,
-        'Close',
-        { duration: 4000, panelClass: 'snack-success' }
-      );
+        this.snackBar.open(
+          `Clerk account created for ${newClerk.fullName}`,
+          'Close',
+          { duration: 4000, panelClass: 'snack-success' }
+        );
+      });
     }, 800);
   }
 
   // -----------------------------------------------
-  // Delete a clerk from the list
+  // Delete a clerk using the shared service
+  // so the stats update everywhere automatically
   // -----------------------------------------------
   onDeleteClerk(clerk: Clerk): void {
-    // Simple confirmation before deleting
     const confirmed = confirm(
       `Are you sure you want to delete ${clerk.fullName}'s account? This cannot be undone.`
     );
 
     if (!confirmed) return;
 
-    // Remove from both lists
-    this.allClerks = this.allClerks.filter(c => c.id !== clerk.id);
-    this.filteredClerks = this.filteredClerks.filter(c => c.id !== clerk.id);
+    // Delete via shared service — updates stats everywhere
+    this.mockDataService.deleteClerk(clerk.id).subscribe(() => {
+      this.allClerks = this.allClerks.filter(c => c.id !== clerk.id);
+      this.filteredClerks = this.filteredClerks.filter(
+        c => c.id !== clerk.id
+      );
 
-    // Show success message
-    this.snackBar.open(
-      `${clerk.fullName}'s account has been deleted`,
-      'Close',
-      { duration: 4000, panelClass: 'snack-success' }
-    );
+      this.snackBar.open(
+        `${clerk.fullName}'s account has been deleted`,
+        'Close',
+        { duration: 4000, panelClass: 'snack-success' }
+      );
+    });
   }
 
   // -----------------------------------------------
