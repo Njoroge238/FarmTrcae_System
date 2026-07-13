@@ -1,1 +1,110 @@
-<p>audit-log works!</p>
+<!-- =============================================
+     Audit Log Component — FarmTrace Admin Portal
+     Shows all significant system actions with
+     filtering by action type and search.
+     ============================================= -->
+
+<div class="audit-page">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Audit Log</h1>
+      <p class="page-subtitle">
+        Complete history of all significant actions
+        performed across the FarmTrace system.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Search bar ── -->
+  <div class="search-bar">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search by details, performed by or entity..."
+      (input)="onSearch($event)"
+    />
+    <span class="search-count">
+      {{ filteredEntries.length }}
+      entr{{ filteredEntries.length !== 1 ? 'ies' : 'y' }} found
+    </span>
+  </div>
+
+  <!-- ── Filter tabs ── -->
+  <div class="filter-tabs">
+    @for (tab of filterTabs; track tab.value) {
+      <button
+        class="filter-tab"
+        [class.active]="activeFilter === tab.value"
+        (click)="setFilter(tab.value)"
+      >
+        <mat-icon>{{ getActionIcon(tab.value) }}</mat-icon>
+        <span>{{ tab.label }}</span>
+        <span class="tab-count">{{ getCount(tab.value) }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading audit log...</p>
+    </div>
+  }
+
+  <!-- ── Audit log entries ── -->
+  @if (!isLoading) {
+    <div class="log-card">
+
+      @for (entry of filteredEntries; track entry.id) {
+        <div class="log-entry">
+
+          <!-- Action icon -->
+          <div class="entry-icon" [ngClass]="getActionClass(entry.actionType)">
+            <mat-icon>{{ getActionIcon(entry.actionType) }}</mat-icon>
+          </div>
+
+          <!-- Entry details -->
+          <div class="entry-body">
+            <div class="entry-top">
+              <span class="entry-action" [ngClass]="getActionClass(entry.actionType)">
+                {{ entry.action.replace('_', ' ') }}
+              </span>
+              <span class="entry-entity">{{ entry.targetEntity }}</span>
+            </div>
+            <div class="entry-details">{{ entry.details }}</div>
+            <div class="entry-meta">
+              <mat-icon>person_outline</mat-icon>
+              <span>{{ entry.performedBy }}</span>
+            </div>
+          </div>
+
+          <!-- Timestamp -->
+          <div class="entry-time">
+            <div class="entry-date">
+              {{ entry.timestamp | date: 'dd MMM yyyy' }}
+            </div>
+            <div class="entry-hour">
+              {{ entry.timestamp | date: 'HH:mm' }}
+            </div>
+          </div>
+
+        </div>
+      }
+
+      <!-- Empty state -->
+      @if (filteredEntries.length === 0) {
+        <div class="empty-state">
+          <mat-icon>history</mat-icon>
+          <p>No log entries found</p>
+          <span>Try adjusting your search or filter</span>
+        </div>
+      }
+
+    </div>
+  }
+
+</div>
