@@ -1,0 +1,155 @@
+// =============================================
+// Reports Page Styles — FarmTrace Admin Portal
+// Analytics dashboard with KPI cards and charts
+// =============================================
+
+.reports-page {
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+  line-height: 1.5;
+}
+
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+// ── KPI cards ──
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.kpi-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+
+  &.blue  { background: #e6f1fb; mat-icon { color: #185fa5; } }
+  &.green { background: #eaf3de; mat-icon { color: #3b6d11; } }
+  &.amber { background: #faeeda; mat-icon { color: #ba7517; } }
+  &.red   { background: #fce8e8; mat-icon { color: #a32d2d; } }
+}
+
+.kpi-val {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0a1628;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.kpi-lbl {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.kpi-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+
+  &.blue  { background: linear-gradient(90deg, #185fa5, #378add); }
+  &.green { background: linear-gradient(90deg, #3b6d11, #63c34a); }
+  &.amber { background: linear-gradient(90deg, #ba7517, #ef9f27); }
+  &.red   { background: linear-gradient(90deg, #a32d2d, #e24b4a); }
+}
+
+// ── Chart rows ──
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.chart-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+
+  &.wide {
+    // takes the larger column automatically
+  }
+}
+
+.chart-header {
+  padding: 14px 18px;
+  border-bottom: 0.5px solid #f3f4f6;
+}
+
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0a1628;
+}
+
+.chart-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.chart-body {
+  padding: 16px 18px;
+  height: 240px;
+  position: relative;
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

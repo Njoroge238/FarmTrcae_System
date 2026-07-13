@@ -1,14 +1,14 @@
 // =============================================
 // FarmTrace Admin Portal — Global Styles
-// Corporate blue/grey theme using Angular Material
 // =============================================
 
 @use '@angular/material' as mat;
 
-// --- Include Material core styles ---
+// ── Material Icons — loaded locally ──
+@import 'material-icons/iconfont/material-icons.css';
+
 @include mat.core();
 
-// --- Define our corporate blue theme ---
 $farmtrace-theme: mat.define-theme((
   color: (
     theme-type: light,
@@ -22,32 +22,31 @@ $farmtrace-theme: mat.define-theme((
   )
 ));
 
-// --- Apply the theme to all Material components ---
 :root {
   @include mat.all-component-themes($farmtrace-theme);
 }
 
-// =============================================
-// Global resets
-// =============================================
+// ── Global resets ──
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  background: #f4f6f9;
-  color: #1a2236;
-  font-size: 14px;
+html, body {
+  height: 100%;
+  overflow: hidden;
 }
 
-// =============================================
-// Admin shell layout helpers
-// =============================================
+body {
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #f0f2f7;
+  color: #1a2236;
+  font-size: 14px;
+  margin: 0;
+}
 
-// The outermost wrapper — full viewport height
+// ── Admin shell layout ──
 .admin-shell {
   display: flex;
   flex-direction: column;
@@ -55,26 +54,25 @@ body {
   overflow: hidden;
 }
 
-// Sits below the top navbar — holds sidebar + content
 .admin-body {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
-// The main scrollable content area on the right
 .admin-content {
   flex: 1;
-  padding: 24px;
   overflow-y: auto;
-  background: #f4f6f9;
+  background: #f0f2f7;
+  padding: 24px;
+
+  &::-webkit-scrollbar { width: 5px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+  &::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
 }
 
-// =============================================
-// Reusable utility classes
-// =============================================
-
-// Page title at the top of each section
+// ── Reusable utility classes ──
 .page-title {
   font-size: 20px;
   font-weight: 500;
@@ -82,7 +80,6 @@ body {
   margin-bottom: 24px;
 }
 
-// A clean white card container
 .ft-card {
   background: #ffffff;
   border-radius: 8px;
@@ -91,7 +88,12 @@ body {
   margin-bottom: 20px;
 }
 
-// Spacer between elements
 .ft-spacer {
   flex: 1 1 auto;
+}
+
+// ── Snackbar success style ──
+.snack-success {
+  --mdc-snackbar-container-color: #1a2236;
+  --mdc-snackbar-supporting-text-color: #ffffff;
 }

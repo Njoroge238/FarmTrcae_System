@@ -1,1 +1,113 @@
-<p>reports works!</p>
+<!-- =============================================
+     Reports Component — FarmTrace Admin Portal
+     System wide analytics and reports page.
+     ============================================= -->
+
+<div class="reports-page">
+
+  <!-- ── Page header ── -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <h1 class="page-title">Reports & Analytics</h1>
+      <p class="page-subtitle">
+        System wide overview of farmer registrations,
+        cooperative performance and crop distribution.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── Loading spinner ── -->
+  @if (isLoading) {
+    <div class="loading-wrapper">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading reports...</p>
+    </div>
+  }
+
+  @if (!isLoading) {
+
+    <!-- ── Summary KPI cards ── -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon blue"><mat-icon>agriculture</mat-icon></div>
+        <div class="kpi-val">{{ totalFarmers }}</div>
+        <div class="kpi-lbl">Total farmers</div>
+        <div class="kpi-bar blue"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon green"><mat-icon>check_circle</mat-icon></div>
+        <div class="kpi-val">{{ approvedFarmers }}</div>
+        <div class="kpi-lbl">Approved</div>
+        <div class="kpi-bar green"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon amber"><mat-icon>schedule</mat-icon></div>
+        <div class="kpi-val">{{ pendingFarmers }}</div>
+        <div class="kpi-lbl">Pending</div>
+        <div class="kpi-bar amber"></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon red"><mat-icon>cancel</mat-icon></div>
+        <div class="kpi-val">{{ rejectedFarmers }}</div>
+        <div class="kpi-lbl">Rejected</div>
+        <div class="kpi-bar red"></div>
+      </div>
+    </div>
+
+    <!-- ── Top row charts ── -->
+    <div class="charts-row">
+
+      <!-- Farmer status doughnut -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Farmer status distribution</div>
+          <div class="chart-sub">Breakdown by approval status</div>
+        </div>
+        <div class="chart-body">
+          <canvas #statusChart></canvas>
+        </div>
+      </div>
+
+      <!-- Registrations trend line -->
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <div class="chart-title">Registrations over time</div>
+          <div class="chart-sub">New farmer registrations per month</div>
+        </div>
+        <div class="chart-body">
+          <canvas #trendChart></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Bottom row charts ── -->
+    <div class="charts-row">
+
+      <!-- Farmers per cooperative -->
+      <div class="chart-card wide">
+        <div class="chart-header">
+          <div class="chart-title">Farmers per cooperative</div>
+          <div class="chart-sub">Total farmer count per cooperative</div>
+        </div>
+        <div class="chart-body">
+          <canvas #coopChart></canvas>
+        </div>
+      </div>
+
+      <!-- Crop type distribution -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div class="chart-title">Crop type distribution</div>
+          <div class="chart-sub">Farmers grouped by crop type</div>
+        </div>
+        <div class="chart-body">
+          <canvas #cropChart></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  }
+
+</div>
