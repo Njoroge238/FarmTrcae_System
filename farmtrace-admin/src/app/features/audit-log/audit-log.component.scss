@@ -1,0 +1,288 @@
+// =============================================
+// Audit Log Styles — FarmTrace Admin Portal
+// =============================================
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.audit-page {
+  width: 100%;
+}
+
+.page-header {
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ── Search bar ──
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+
+.search-icon {
+  font-size: 19px !important;
+  width: 19px !important;
+  height: 19px !important;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #1a2236;
+  background: transparent;
+  min-width: 0;
+
+  &::placeholder { color: #9ca3af; }
+}
+
+.search-count {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+// ── Filter tabs ──
+.filter-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+
+  mat-icon {
+    font-size: 15px !important;
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  &:hover:not(.active) {
+    background: #f3f4f6;
+    color: #0a1628;
+  }
+
+  &.active {
+    background: #0a1628;
+    color: #ffffff;
+    border-color: #0a1628;
+    font-weight: 500;
+  }
+}
+
+.tab-count {
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 99px;
+}
+
+// ── Loading ──
+.loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  gap: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+// ── Log card ──
+.log-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+// ── Individual log entry ──
+.log-entry {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 0.5px solid #f3f4f6;
+  transition: background 0.1s ease;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: #f8f9fb; }
+}
+
+// Action icon circle
+.entry-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  mat-icon {
+    font-size: 17px !important;
+    width: 17px !important;
+    height: 17px !important;
+  }
+
+  &.action-create  { background: #eaf3de; mat-icon { color: #3b6d11; } }
+  &.action-delete  { background: #fce8e8; mat-icon { color: #a32d2d; } }
+  &.action-approve { background: #eaf3de; mat-icon { color: #3b6d11; } }
+  &.action-reject  { background: #fce8e8; mat-icon { color: #a32d2d; } }
+  &.action-login   { background: #e6f1fb; mat-icon { color: #185fa5; } }
+}
+
+// Entry body
+.entry-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entry-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.entry-action {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+
+  &.action-create  { color: #3b6d11; }
+  &.action-delete  { color: #a32d2d; }
+  &.action-approve { color: #3b6d11; }
+  &.action-reject  { color: #a32d2d; }
+  &.action-login   { color: #185fa5; }
+}
+
+.entry-entity {
+  font-size: 10px;
+  color: #9ca3af;
+  background: #f3f4f6;
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+.entry-details {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.entry-meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+
+  mat-icon {
+    font-size: 13px !important;
+    width: 13px !important;
+    height: 13px !important;
+  }
+}
+
+// Timestamp — pinned to the right
+.entry-time {
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 90px;
+}
+
+.entry-date {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.entry-hour {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+// ── Empty state ──
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    color: #d1d5db;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  span {
+    font-size: 12px;
+    color: #9ca3af;
+  }
+}
