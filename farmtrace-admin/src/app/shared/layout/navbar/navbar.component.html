@@ -75,12 +75,13 @@
       <mat-icon class="nav-chevron">expand_more</mat-icon>
     </button>
 
+    <!-- Dropdown menu -->
     <mat-menu #userMenu="matMenu" xPosition="before">
-      <button mat-menu-item disabled>
+      <button mat-menu-item routerLink="/profile">
         <mat-icon>person_outline</mat-icon>
         <span>My profile</span>
       </button>
-      <button mat-menu-item disabled>
+      <button mat-menu-item routerLink="/change-password">
         <mat-icon>lock_outline</mat-icon>
         <span>Change password</span>
       </button>

@@ -16,10 +16,10 @@
       </p>
     </div>
     <div class="page-header-right">
-      <button class="header-btn">
-        <mat-icon>file_download</mat-icon>
-        <span>Export</span>
-      </button>
+     <button class="header-btn" (click)="onExport()">
+  <mat-icon>file_download</mat-icon>
+  <span>Export</span>
+</button>
       <button class="header-btn primary" (click)="loadDashboardData()">
         <mat-icon>refresh</mat-icon>
         <span>Refresh</span>

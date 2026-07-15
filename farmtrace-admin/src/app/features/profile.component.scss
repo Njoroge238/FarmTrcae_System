@@ -1,0 +1,122 @@
+// =============================================
+// Profile Page Styles — FarmTrace Admin Portal
+// =============================================
+
+:host { display: block; width: 100%; }
+
+.profile-page { width: 100%; max-width: 560px; }
+
+.page-header { margin-bottom: 20px; }
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  transition: all 0.15s ease;
+
+  mat-icon { font-size: 17px; width: 17px; height: 17px; }
+  &:hover { background: #f3f4f6; color: #0a1628; }
+}
+
+.profile-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #185fa5, #0c447c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #b5d4f4;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0a1628;
+  margin: 0 0 6px 0;
+}
+
+.profile-role {
+  font-size: 12px;
+  color: #ffffff;
+  background: #185fa5;
+  padding: 3px 10px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+.profile-divider {
+  height: 0.5px;
+  background: #f3f4f6;
+}
+
+.profile-details { padding: 16px 24px; }
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 0.5px solid #f3f4f6;
+
+  &:last-child { border-bottom: none; }
+}
+
+.detail-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #9ca3af;
+
+  mat-icon { font-size: 16px; width: 16px; height: 16px; }
+}
+
+.detail-val {
+  font-size: 13px;
+  color: #0a1628;
+  font-weight: 500;
+}
+
+.profile-actions { padding: 16px 24px; }
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  border: 0.5px solid #e5e7eb;
+  background: #f8f9fb;
+  color: #374151;
+  transition: all 0.15s ease;
+
+  mat-icon { font-size: 17px; width: 17px; height: 17px; color: #185fa5; }
+  &:hover { background: #e6f1fb; border-color: #b5d4f4; }
+}

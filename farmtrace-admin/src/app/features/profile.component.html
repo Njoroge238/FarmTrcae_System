@@ -1,0 +1,77 @@
+<!-- =============================================
+     Profile Component — FarmTrace Admin Portal
+     ============================================= -->
+
+<div class="profile-page">
+
+  <div class="page-header">
+    <button class="back-btn" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      <span>Back to dashboard</span>
+    </button>
+  </div>
+
+  <div class="profile-card">
+
+    <div class="profile-top">
+      <div class="profile-avatar">AD</div>
+      <div class="profile-info">
+        <h1 class="profile-name">{{ admin.name }}</h1>
+        <span class="profile-role">{{ admin.role }}</span>
+      </div>
+    </div>
+
+    <div class="profile-divider"></div>
+
+    <div class="profile-details">
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <mat-icon>mail_outline</mat-icon>
+          <span>Email</span>
+        </div>
+        <div class="detail-val">{{ admin.email }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <mat-icon>shield</mat-icon>
+          <span>Role</span>
+        </div>
+        <div class="detail-val">{{ admin.role }}</div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <mat-icon>calendar_today</mat-icon>
+          <span>Member since</span>
+        </div>
+        <div class="detail-val">
+          {{ admin.joinedAt | date: 'dd MMM yyyy' }}
+        </div>
+      </div>
+
+      <div class="detail-row">
+        <div class="detail-label">
+          <mat-icon>login</mat-icon>
+          <span>Last login</span>
+        </div>
+        <div class="detail-val">
+          {{ admin.lastLogin | date: 'dd MMM yyyy, HH:mm' }}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="profile-divider"></div>
+
+    <div class="profile-actions">
+      <button class="action-btn" routerLink="/change-password">
+        <mat-icon>lock_outline</mat-icon>
+        <span>Change password</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>

@@ -1,32 +1,24 @@
 // =============================================
 // Dashboard Component — FarmTrace Admin Portal
-// The first page the admin sees after login.
-// Shows KPI cards, recent clerks and
-// recent cooperatives using mock data for now.
-// View all buttons navigate to full pages.
-// Refresh button shows loading spinner.
 // =============================================
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
-// Angular Material imports
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
-// Our mock data service and models
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import {
   MockDataService,
   DashboardSummary,
   Clerk,
   Cooperative
 } from '../../../core/services/mock-data.service';
+import { ExportService } from '../../../core/services/export.service';
 
-// The shape of each KPI card
 interface KpiCard {
   label: string;
   value: number;
@@ -45,76 +37,48 @@ interface KpiCard {
     MatButtonModule,
     MatTableModule,
     MatChipsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
 
-  // Controls the loading spinner
   isLoading = true;
-
-  // KPI cards shown at the top of the dashboard
   kpiCards: KpiCard[] = [];
-
-  // Recent clerks shown in the table
   recentClerks: Clerk[] = [];
-
-  // Recent cooperatives shown in the table
   recentCooperatives: Cooperative[] = [];
-
-  // Columns shown in the clerks table
   clerkColumns = ['name', 'email', 'region', 'cooperative', 'status'];
-
-  // Columns shown in the cooperatives table
   cooperativeColumns = ['name', 'region', 'farmers', 'clerks'];
 
   constructor(
     private mockDataService: MockDataService,
-    private router: Router
+    private exportService: ExportService,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
-  // -----------------------------------------------
-  // Load all data when the dashboard page opens
-  // -----------------------------------------------
   ngOnInit(): void {
     this.loadDashboardData();
   }
 
-  // -----------------------------------------------
-  // Fetch dashboard summary stats and tables
-  // -----------------------------------------------
   loadDashboardData(): void {
     this.isLoading = true;
-
-    // Small delay to show the spinner visually
-    // With real API this delay won't be needed —
-    // the actual network call will take its place
     setTimeout(() => {
-
-      // Load the summary stats for KPI cards
       this.mockDataService.getDashboardSummary().subscribe(summary => {
         this.buildKpiCards(summary);
       });
-
-      // Load recent clerks for the table
       this.mockDataService.getClerks().subscribe(clerks => {
         this.recentClerks = clerks.slice(0, 5);
       });
-
-      // Load recent cooperatives for the table
       this.mockDataService.getCooperatives().subscribe(cooperatives => {
         this.recentCooperatives = cooperatives.slice(0, 5);
         this.isLoading = false;
       });
-
-    }, 800); // 800ms delay so the spinner is visible
+    }, 800);
   }
 
-  // -----------------------------------------------
-  // Build the KPI cards from the summary data
-  // -----------------------------------------------
   buildKpiCards(summary: DashboardSummary): void {
     this.kpiCards = [
       {
@@ -153,22 +117,25 @@ export class DashboardComponent implements OnInit {
   }
 
   // -----------------------------------------------
-  // Navigate to the full clerks page
+  // Export dashboard summary as CSV
   // -----------------------------------------------
+  onExport(): void {
+    this.exportService.exportDashboardSummary();
+    this.snackBar.open(
+      'Dashboard summary exported as CSV',
+      'Close',
+      { duration: 3000 }
+    );
+  }
+
   goToClerks(): void {
     this.router.navigate(['/clerks']);
   }
 
-  // -----------------------------------------------
-  // Navigate to the full cooperatives page
-  // -----------------------------------------------
   goToCooperatives(): void {
     this.router.navigate(['/cooperatives']);
   }
 
-  // -----------------------------------------------
-  // Returns the right CSS class for status pill
-  // -----------------------------------------------
   getStatusClass(status: string): string {
     const map: Record<string, string> = {
       'ACTIVE':   'status-active',
