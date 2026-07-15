@@ -297,3 +297,18 @@
     color: #63c34a;
   }
 }
+
+// Fix for login button content alignment
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}

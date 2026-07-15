@@ -1,0 +1,85 @@
+// =============================================
+// Not Found Page Styles — FarmTrace Admin
+// =============================================
+
+.not-found-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.not-found-card {
+  background: #ffffff;
+  border: 0.5px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 420px;
+  width: 100%;
+}
+
+.not-found-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: #e6f1fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: #185fa5;
+  }
+}
+
+.not-found-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: #0a1628;
+  margin: 0 0 8px 0;
+  line-height: 1;
+}
+
+.not-found-sub {
+  font-size: 18px;
+  font-weight: 500;
+  color: #374151;
+  margin: 0 0 12px 0;
+}
+
+.not-found-desc {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 28px 0;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: #185fa5;
+  color: #ffffff;
+  transition: background 0.15s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover { background: #1a6dbf; }
+}

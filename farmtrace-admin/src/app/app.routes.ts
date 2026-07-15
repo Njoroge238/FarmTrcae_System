@@ -1,22 +1,19 @@
 // =============================================
 // App Routes — FarmTrace Admin Portal
-// Defines all the pages and who can access them.
-// All protected pages load inside the shell
-// which gives them the navbar and right panel.
 // =============================================
 
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  // Default route — redirect to login
+  // Default — redirect to login
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
 
-  // Login page — publicly accessible
+  // Login — public
   {
     path: 'login',
     loadComponent: () =>
@@ -24,7 +21,15 @@ export const routes: Routes = [
         .then(m => m.LoginComponent)
   },
 
-  // All protected pages load inside the shell
+  // 404 page — public and standalone (no shell)
+  {
+    path: '404',
+    loadComponent: () =>
+      import('./features/not-found.component')
+        .then(m => m.NotFoundComponent)
+  },
+
+  // All protected pages inside the shell
   {
     path: '',
     canActivate: [authGuard],
@@ -32,56 +37,42 @@ export const routes: Routes = [
       import('./shared/layout/shell/shell.component')
         .then(m => m.ShellComponent),
     children: [
-
-      // Dashboard
       {
         path: 'dashboard',
         loadComponent: () =>
           import('./features/dashboard/dashboard/dashboard.component')
             .then(m => m.DashboardComponent)
       },
-
-      // Clerks
       {
         path: 'clerks',
         loadComponent: () =>
           import('./features/clerks/clerks.component')
             .then(m => m.ClerksComponent)
       },
-
-      // Cooperatives list
       {
         path: 'cooperatives',
         loadComponent: () =>
           import('./features/cooperatives/cooperatives.component')
             .then(m => m.CooperativesComponent)
       },
-
-      // Cooperative detail page — shows clerks and farmers
       {
         path: 'cooperatives/:id',
         loadComponent: () =>
           import('./features/cooperatives/cooperative-detail.component')
             .then(m => m.CooperativeDetailComponent)
       },
-
-      // Farmers
       {
         path: 'farmers',
         loadComponent: () =>
           import('./features/farmers/farmers.component')
             .then(m => m.FarmersComponent)
       },
-
-      // Reports
       {
         path: 'reports',
         loadComponent: () =>
           import('./features/reports/reports.component')
             .then(m => m.ReportsComponent)
       },
-
-      // Audit log
       {
         path: 'audit-log',
         loadComponent: () =>
@@ -91,9 +82,9 @@ export const routes: Routes = [
     ]
   },
 
-  // Catch any unknown routes — redirect to login
+  // Any unknown route — redirect to 404
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: '/404'
   }
 ];

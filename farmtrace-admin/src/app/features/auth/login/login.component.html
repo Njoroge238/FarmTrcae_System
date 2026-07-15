@@ -11,32 +11,22 @@
   <svg class="geo-bg" viewBox="0 0 1440 900"
        xmlns="http://www.w3.org/2000/svg"
        preserveAspectRatio="xMidYMid slice">
-
-    <!-- Blue concentric circles — top left -->
     <circle cx="200" cy="160" r="320" fill="none"
             stroke="rgba(24,95,165,0.18)" stroke-width="0.8"/>
     <circle cx="200" cy="160" r="230" fill="none"
             stroke="rgba(24,95,165,0.12)" stroke-width="0.8"/>
     <circle cx="200" cy="160" r="140" fill="none"
             stroke="rgba(24,95,165,0.08)" stroke-width="0.8"/>
-
-    <!-- Green concentric circles — bottom right -->
     <circle cx="1240" cy="740" r="280" fill="none"
             stroke="rgba(99,195,74,0.12)" stroke-width="0.8"/>
     <circle cx="1240" cy="740" r="190" fill="none"
             stroke="rgba(99,195,74,0.08)" stroke-width="0.8"/>
-
-    <!-- Green triangles — top right -->
     <polygon points="1260,80 1340,220 1180,220" fill="none"
              stroke="rgba(99,195,74,0.15)" stroke-width="0.8"/>
     <polygon points="1300,40 1400,230 1200,230" fill="none"
              stroke="rgba(99,195,74,0.07)" stroke-width="0.8"/>
-
-    <!-- Blue triangle — bottom left -->
     <polygon points="120,660 200,790 40,790" fill="none"
              stroke="rgba(24,95,165,0.12)" stroke-width="0.8"/>
-
-    <!-- Subtle grid lines -->
     <line x1="0" y1="300" x2="1440" y2="300"
           stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
     <line x1="0" y1="600" x2="1440" y2="600"
@@ -45,22 +35,16 @@
           stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
     <line x1="1040" y1="0" x2="1040" y2="900"
           stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
-
-    <!-- Glowing anchor dots -->
     <circle cx="200" cy="160" r="4" fill="rgba(99,195,74,0.6)"/>
     <circle cx="1240" cy="740" r="4" fill="rgba(24,95,165,0.7)"/>
     <circle cx="1260" cy="80"  r="3" fill="rgba(99,195,74,0.4)"/>
     <circle cx="120"  cy="660" r="3" fill="rgba(24,95,165,0.4)"/>
-
-    <!-- Dashed connecting lines -->
     <line x1="200" y1="160" x2="1260" y2="80"
           stroke="rgba(99,195,74,0.07)"
           stroke-width="0.8" stroke-dasharray="5,8"/>
     <line x1="120" y1="660" x2="1240" y2="740"
           stroke="rgba(24,95,165,0.07)"
           stroke-width="0.8" stroke-dasharray="5,8"/>
-
-    <!-- Rotated rectangles — floating shapes -->
     <rect x="50" y="420" width="80" height="80" rx="6" fill="none"
           stroke="rgba(255,255,255,0.04)" stroke-width="0.8"
           transform="rotate(15 90 460)"/>
@@ -87,7 +71,6 @@
   <div class="card-wrapper">
     <div class="login-card">
 
-      <!-- Card header -->
       <div class="card-header">
         <div class="card-icon">
           <mat-icon>shield</mat-icon>
@@ -100,10 +83,8 @@
 
       <div class="card-divider"></div>
 
-      <!-- Login form -->
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
-        <!-- Email field -->
         <mat-form-field appearance="outline" class="full-width dark-field">
           <mat-label>Email address</mat-label>
           <input
@@ -114,7 +95,6 @@
             autocomplete="email"
           />
           <mat-icon matSuffix>mail_outline</mat-icon>
-
           @if (loginForm.get('email')?.hasError('required') &&
                loginForm.get('email')?.touched) {
             <mat-error>Email is required</mat-error>
@@ -125,7 +105,6 @@
           }
         </mat-form-field>
 
-        <!-- Password field -->
         <mat-form-field appearance="outline" class="full-width dark-field">
           <mat-label>Password</mat-label>
           <input
@@ -143,7 +122,6 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-
           @if (loginForm.get('password')?.hasError('required') &&
                loginForm.get('password')?.touched) {
             <mat-error>Password is required</mat-error>
@@ -154,7 +132,6 @@
           }
         </mat-form-field>
 
-        <!-- Server error message -->
         @if (errorMessage) {
           <div class="error-banner">
             <mat-icon>error_outline</mat-icon>
@@ -162,25 +139,26 @@
           </div>
         }
 
-        <!-- Sign in button -->
+        <!-- Fixed login button — no more warning -->
         <button
           mat-raised-button
           type="submit"
           class="login-btn"
           [disabled]="loginForm.invalid || isLoading"
         >
-          @if (isLoading) {
-            <mat-spinner diameter="20"></mat-spinner>
-            <span>Signing in...</span>
-          } @else {
-            <mat-icon>login</mat-icon>
-            <span>Sign in to portal</span>
-          }
+          <span class="btn-content">
+            @if (isLoading) {
+              <mat-spinner diameter="20"></mat-spinner>
+              <span>Signing in...</span>
+            } @else {
+              <mat-icon>login</mat-icon>
+              <span>Sign in to portal</span>
+            }
+          </span>
         </button>
 
       </form>
 
-      <!-- Card footer -->
       <p class="card-footer">
         FarmTrace Admin Portal &copy; {{ currentYear }} — Secured access only
       </p>
