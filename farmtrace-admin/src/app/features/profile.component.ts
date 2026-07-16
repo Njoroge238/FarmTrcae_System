@@ -27,9 +27,13 @@ export class ProfileComponent {
     joinedAt: '2024-11-01'
   };
 
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   goBack(): void {
     this.router.navigate(['/dashboard']);
+  }
+
+  goToChangePassword(): void {
+    this.router.navigate(['/change-password']);
   }
 }
